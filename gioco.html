@@ -1,0 +1,1821 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>L'Eredità</title>
+<script src="transitions.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --verde-scuro: #0B3D2E;
+    --verde-pannello: #123C30;
+    --verde-pannello-alt: #164536;
+    --oro: #C9A227;
+    --oro-chiaro: #E8C766;
+    --crema: #F3EEDC;
+    --crema-soft: #D8D2BC;
+    --bordeaux: #7A2436;
+    --bordeaux-chiaro: #A8394F;
+  }
+
+  * { box-sizing: border-box; }
+
+  html { background: #082A20; }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    background:
+      radial-gradient(ellipse at top, #0F4735 0%, var(--verde-scuro) 55%, #082A20 100%);
+    color: var(--crema);
+    font-family: 'Inter', sans-serif;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 32px 16px;
+    opacity: 1;
+    transition: opacity 0.32s ease;
+  }
+
+  /* Transizione di ingresso/uscita tra pagine (vedi transitions.js) */
+  body.page-hidden {
+    opacity: 0;
+  }
+
+  .cornice {
+    width: 100%;
+    max-width: 720px;
+    border: 1px solid rgba(201, 162, 39, 0.35);
+    border-radius: 4px;
+    padding: 3px;
+    background: linear-gradient(135deg, rgba(201,162,39,0.25), rgba(201,162,39,0.05));
+  }
+
+  .contenuto {
+    background: var(--verde-pannello);
+    border: 1px solid rgba(201, 162, 39, 0.5);
+    border-radius: 3px;
+    padding: 48px 40px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .btn-esci-globale {
+    position: absolute;
+    top: 16px;
+    right: 16px;
+    background: none;
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    color: var(--crema-soft);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    display: none;
+    transition: border-color 0.15s, color 0.15s;
+  }
+
+  .btn-esci-globale:hover {
+    border-color: var(--bordeaux-chiaro);
+    color: var(--bordeaux-chiaro);
+  }
+
+  .btn-esci-globale:focus-visible { outline: 2px solid var(--oro-chiaro); outline-offset: 2px; }
+
+  .btn-classifica-globale {
+    position: absolute;
+    top: 16px;
+    left: 16px;
+    background: none;
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    color: var(--oro-chiaro);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.72rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 6px 12px;
+    border-radius: 2px;
+    cursor: pointer;
+    transition: border-color 0.15s, background 0.15s;
+  }
+
+  .btn-classifica-globale:hover {
+    border-color: var(--oro-chiaro);
+    background: rgba(201, 162, 39, 0.12);
+  }
+
+  .btn-classifica-globale:focus-visible { outline: 2px solid var(--oro-chiaro); outline-offset: 2px; }
+
+  .btn-portfolio-ritorno {
+    position: absolute;
+    bottom: 14px;
+    right: 14px;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    color: var(--oro-chiaro);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.74rem;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    text-decoration: none;
+    padding: 6px 12px;
+    border-radius: 2px;
+    transition: all 0.15s ease;
+    z-index: 10;
+  }
+  .btn-portfolio-ritorno:hover {
+    border-color: var(--oro-chiaro);
+    background: rgba(201, 162, 39, 0.18);
+    color: #fff;
+  }
+
+
+  .lista-classifica {
+    list-style: none;
+    padding: 0;
+    margin: 0 0 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .riga-classifica {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: var(--verde-pannello-alt);
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    border-radius: 3px;
+    padding: 14px 18px;
+  }
+
+  .riga-classifica .nome-giocatore {
+    flex: 1;
+    font-size: 1.02rem;
+    font-weight: 600;
+    color: var(--crema);
+  }
+
+  .riga-classifica .punteggio-classifica {
+    font-family: 'IBM Plex Mono', monospace;
+    color: var(--oro-chiaro);
+    font-weight: 600;
+  }
+
+  .classifica-vuota {
+    text-align: center;
+    color: var(--crema-soft);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    padding: 30px 10px;
+  }
+
+  .schermata { display: none; }
+  .schermata.attiva { display: block; animation: comparsa 0.5s ease; }
+
+  @keyframes comparsa {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* --- Sigillo (elemento firma) --- */
+  .sigillo-wrapper {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .sigillo {
+    width: 92px;
+    height: 92px;
+    position: relative;
+  }
+
+  .sigillo svg { width: 100%; height: 100%; }
+
+  .sigillo .brillio {
+    position: absolute;
+    top: 0; left: -100%;
+    width: 100%; height: 100%;
+    background: linear-gradient(115deg, transparent 30%, rgba(255,255,255,0.55) 50%, transparent 70%);
+    animation: sweep 2.2s ease-in-out 0.3s 1;
+    border-radius: 50%;
+  }
+
+  @keyframes sweep {
+    0% { left: -120%; }
+    60% { left: 120%; }
+    100% { left: 120%; }
+  }
+
+  h1.titolo {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 700;
+    font-size: 2.6rem;
+    text-align: center;
+    letter-spacing: 0.04em;
+    margin: 0 0 6px;
+    color: var(--oro-chiaro);
+  }
+
+  p.sottotitolo {
+    text-align: center;
+    color: var(--crema-soft);
+    font-size: 0.92rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin: 0 0 36px;
+  }
+
+  .divisore {
+    width: 64px;
+    height: 1px;
+    background: var(--oro);
+    margin: 0 auto 32px;
+    opacity: 0.6;
+  }
+
+  /* --- Login --- */
+  .campo-nome {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 360px;
+    margin: 0 auto 28px;
+  }
+
+  label.etichetta {
+    font-size: 0.8rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--crema-soft);
+  }
+
+  input[type="text"] {
+    background: rgba(0,0,0,0.18);
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    border-radius: 2px;
+    color: var(--crema);
+    font-family: 'Inter', sans-serif;
+    font-size: 1.05rem;
+    padding: 12px 14px;
+    outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+  input[type="text"]:focus {
+    border-color: var(--oro-chiaro);
+    box-shadow: 0 0 0 3px rgba(232, 199, 102, 0.22);
+  }
+
+  input[type="text"]::placeholder { color: rgba(243, 238, 220, 0.35); }
+
+  .messaggio-errore {
+    color: var(--bordeaux-chiaro);
+    font-size: 0.85rem;
+    min-height: 1.2em;
+    text-align: center;
+    margin: -14px auto 18px;
+    max-width: 360px;
+  }
+
+  .azioni { display: flex; justify-content: center; }
+
+  button.bottone-oro {
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.95rem;
+    letter-spacing: 0.05em;
+    color: var(--verde-scuro);
+    background: linear-gradient(180deg, var(--oro-chiaro), var(--oro));
+    border: none;
+    border-radius: 2px;
+    padding: 13px 34px;
+    cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+
+  button.bottone-oro:hover { box-shadow: 0 4px 14px rgba(201, 162, 39, 0.35); transform: translateY(-1px); }
+  button.bottone-oro:active { transform: translateY(0); }
+  button.bottone-oro:focus-visible { outline: 2px solid var(--crema); outline-offset: 3px; }
+
+  /* --- Bentornato / storico --- */
+  .box-storico {
+    background: rgba(0,0,0,0.16);
+    border-left: 2px solid var(--oro);
+    border-radius: 2px;
+    padding: 14px 18px;
+    max-width: 420px;
+    margin: -8px auto 28px;
+    font-size: 0.92rem;
+    color: var(--crema-soft);
+    text-align: center;
+  }
+
+  .box-storico strong { color: var(--oro-chiaro); font-family: 'IBM Plex Mono', monospace; }
+
+  /* --- Menu --- */
+  .saluto {
+    text-align: center;
+    color: var(--crema-soft);
+    font-size: 0.95rem;
+    margin: -12px 0 30px;
+  }
+
+  .saluto strong { color: var(--oro-chiaro); font-weight: 600; }
+
+  .griglia-modi {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .targa {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    background: var(--verde-pannello-alt);
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    border-radius: 3px;
+    padding: 18px 22px;
+    cursor: pointer;
+    text-align: left;
+    color: var(--crema);
+    font-family: 'Inter', sans-serif;
+    transition: border-color 0.2s, background 0.2s, transform 0.15s;
+    width: 100%;
+  }
+
+  .targa:hover {
+    border-color: var(--oro);
+    background: #1B5342;
+    transform: translateX(3px);
+  }
+
+  .targa:focus-visible { outline: 2px solid var(--oro-chiaro); outline-offset: 2px; }
+
+  .numero-romano {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: var(--oro);
+    min-width: 38px;
+    text-align: center;
+  }
+
+  .targa-testi { flex: 1; }
+
+  .targa-nome {
+    font-size: 1.08rem;
+    font-weight: 600;
+    margin-bottom: 3px;
+  }
+
+  .targa-desc {
+    font-size: 0.84rem;
+    color: var(--crema-soft);
+  }
+
+  .freccia { color: var(--oro); font-size: 1.2rem; opacity: 0.7; }
+
+  .targa.completata {
+    cursor: default;
+    opacity: 0.55;
+  }
+
+  .targa.completata:hover {
+    border-color: rgba(201, 162, 39, 0.3);
+    background: var(--verde-pannello-alt);
+    transform: none;
+  }
+
+  .targa.completata .segno-fatto {
+    color: var(--oro);
+    font-size: 0.82rem;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+
+  .messaggio-tutte-complete {
+    text-align: center;
+    color: var(--oro-chiaro);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.15rem;
+    margin-top: 22px;
+    display: none;
+  }
+
+  .messaggio-tutte-complete.visibile { display: block; }
+
+  /* --- Schermata placeholder (fasi future) --- */
+  .placeholder {
+    text-align: center;
+    padding: 40px 10px 10px;
+  }
+
+  .placeholder p { color: var(--crema-soft); line-height: 1.6; }
+
+  .link-indietro {
+    background: none;
+    border: none;
+    color: var(--oro-chiaro);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.9rem;
+    cursor: pointer;
+    margin-top: 24px;
+    text-decoration: underline;
+    text-underline-offset: 3px;
+  }
+
+  .link-indietro:focus-visible { outline: 2px solid var(--oro-chiaro); outline-offset: 3px; }
+
+  /* --- Quiz: intestazione di gioco (riusata anche dalle fasi future) --- */
+  .barra-gioco {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 26px;
+    padding-bottom: 14px;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.25);
+  }
+
+  .barra-gioco .progresso {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.85rem;
+    color: var(--crema-soft);
+    letter-spacing: 0.03em;
+  }
+
+  .barra-gioco .punteggio-live {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.95rem;
+    color: var(--oro-chiaro);
+    font-weight: 600;
+  }
+
+  .carta-domanda {
+    background: rgba(0,0,0,0.16);
+    border: 1px solid rgba(201, 162, 39, 0.3);
+    border-radius: 3px;
+    padding: 26px 24px;
+    margin-bottom: 22px;
+    text-align: center;
+  }
+
+  .carta-domanda p.testo-domanda {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: var(--crema);
+    line-height: 1.4;
+    margin: 0;
+  }
+
+  .riga-tentativi {
+    display: flex;
+    justify-content: center;
+    gap: 7px;
+    margin-top: 16px;
+  }
+
+  .gettone {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: var(--oro);
+    opacity: 0.9;
+    transition: opacity 0.2s, background 0.2s;
+  }
+
+  .gettone.usato { background: var(--bordeaux); opacity: 0.35; }
+
+  .riga-risposta {
+    display: flex;
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto 16px;
+  }
+
+  .riga-risposta input[type="text"] { flex: 1; min-width: 0; }
+
+  button.bottone-oro.compatto { padding: 12px 24px; white-space: nowrap; }
+
+  .banner-esito {
+    max-width: 420px;
+    margin: 0 auto 24px;
+    padding: 12px 16px;
+    border-radius: 2px;
+    font-size: 0.92rem;
+    text-align: center;
+    min-height: 1.3em;
+  }
+
+  .banner-esito.corretto {
+    background: rgba(201, 162, 39, 0.16);
+    border: 1px solid var(--oro);
+    color: var(--oro-chiaro);
+  }
+
+  .banner-esito.sbagliato {
+    background: rgba(122, 36, 54, 0.22);
+    border: 1px solid var(--bordeaux-chiaro);
+    color: var(--bordeaux-chiaro);
+  }
+
+  .banner-esito:empty { display: none; }
+
+  /* --- Ruota della Fortuna --- */
+  .frase-display {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 18px;
+    margin-bottom: 26px;
+  }
+
+  .parola-gruppo {
+    display: flex;
+    gap: 4px;
+  }
+
+  .lettera-tile {
+    min-width: 30px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: var(--crema);
+  }
+
+  .lettera-tile.riempita {
+    border-bottom: 2px solid var(--oro);
+  }
+
+  .lettera-tile.vuota {
+    border-bottom: 2px solid rgba(216, 210, 188, 0.3);
+    color: transparent;
+  }
+
+  .tastiera {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px;
+    max-width: 460px;
+    margin: 0 auto 22px;
+  }
+
+  .tasto-lettera {
+    width: 34px;
+    height: 34px;
+    border-radius: 2px;
+    border: 1px solid rgba(201, 162, 39, 0.4);
+    background: rgba(0,0,0,0.16);
+    color: var(--crema);
+    font-family: 'Inter', sans-serif;
+    font-weight: 600;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-transform: uppercase;
+    transition: background 0.15s, border-color 0.15s, opacity 0.15s;
+  }
+
+  .tasto-lettera:hover:not(:disabled) { border-color: var(--oro-chiaro); background: rgba(201,162,39,0.15); }
+  .tasto-lettera:focus-visible { outline: 2px solid var(--oro-chiaro); outline-offset: 2px; }
+
+  .tasto-lettera.corretta { background: rgba(201, 162, 39, 0.35); border-color: var(--oro); }
+  .tasto-lettera.sbagliata { background: rgba(122, 36, 54, 0.3); border-color: var(--bordeaux-chiaro); opacity: 0.5; }
+  .tasto-lettera:disabled { cursor: default; }
+
+  .separatore-o {
+    text-align: center;
+    color: var(--crema-soft);
+    font-size: 0.78rem;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin: 4px 0 14px;
+  }
+
+  /* --- Schermata di fine modalità --- */
+  .riepilogo-fine {
+    text-align: center;
+  }
+
+  .riepilogo-fine .punteggio-grande {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 3rem;
+    font-weight: 600;
+    color: var(--oro-chiaro);
+    margin: 6px 0 18px;
+  }
+
+  .griglia-statistiche {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    max-width: 420px;
+    margin: 0 auto 30px;
+  }
+
+  .statistica-box {
+    background: rgba(0,0,0,0.16);
+    border: 1px solid rgba(201, 162, 39, 0.25);
+    border-radius: 3px;
+    padding: 14px 8px;
+  }
+
+  .statistica-box .valore {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1.3rem;
+    font-weight: 600;
+    color: var(--oro-chiaro);
+  }
+
+  .statistica-box .etichetta-mini {
+    font-size: 0.72rem;
+    color: var(--crema-soft);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 3px;
+  }
+
+  /* --- Ghigliottina --- */
+  .lista-indizi {
+    list-style: none;
+    margin: 0 0 24px;
+    padding: 0;
+    max-width: 360px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .lista-indizi li {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 10px 4px;
+    border-bottom: 1px solid rgba(201, 162, 39, 0.15);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.2rem;
+  }
+
+  .lista-indizi li:last-child { border-bottom: none; }
+
+  .indizio-numero {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    border: 1px solid var(--oro);
+    color: var(--oro);
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 0.72rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 480px) {
+    .contenuto { padding: 34px 20px; }
+    h1.titolo { font-size: 2.1rem; }
+    .targa { padding: 14px 16px; gap: 14px; }
+
+    .riga-risposta {
+      flex-direction: column;
+    }
+
+    .riga-risposta button.bottone-oro.compatto {
+      width: 100%;
+    }
+
+    .tasto-lettera {
+      width: 30px;
+      height: 30px;
+      font-size: 0.78rem;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .sigillo .brillio { animation: none; display: none; }
+    .schermata.attiva { animation: none; }
+  }
+</style>
+</head>
+<body class="page-hidden">
+
+<div class="cornice">
+  <div class="contenuto">
+
+    <button class="btn-esci-globale" id="btn-esci-globale">Esci</button>
+    <button class="btn-classifica-globale" id="btn-classifica-globale">🏆 Classifica</button>
+    <a href="progetti.html" class="btn-portfolio-ritorno" title="Torna al portfolio di Marco Cristofari">← Portfolio</a>
+
+    <div class="sigillo-wrapper">
+      <div class="sigillo">
+        <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="50" cy="50" r="46" fill="none" stroke="#C9A227" stroke-width="2"/>
+          <circle cx="50" cy="50" r="38" fill="none" stroke="#C9A227" stroke-width="1" opacity="0.6"/>
+          <path d="M50 20 L54 36 L50 32 L46 36 Z" fill="#E8C766"/>
+          <text x="50" y="60" font-family="Cormorant Garamond, serif" font-size="34" font-weight="700"
+                fill="#E8C766" text-anchor="middle">E</text>
+          <path d="M28 68 Q50 78 72 68" fill="none" stroke="#C9A227" stroke-width="1.5" opacity="0.7"/>
+        </svg>
+        <div class="brillio"></div>
+      </div>
+    </div>
+
+    <h1 class="titolo">L'Eredità</h1>
+    <p class="sottotitolo">Tre prove. Un solo punteggio.</p>
+    <div class="divisore"></div>
+
+    <!-- SCHERMATA: LOGIN -->
+    <section id="schermata-login" class="schermata attiva">
+      <div class="campo-nome">
+        <label class="etichetta" for="input-nome">Il tuo nome</label>
+        <input type="text" id="input-nome" placeholder="Es. Marco" autocomplete="off" maxlength="24">
+      </div>
+      <p class="messaggio-errore" id="errore-nome"></p>
+      <div class="azioni">
+        <button class="bottone-oro" id="btn-entra">Entra in gioco</button>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: MENU -->
+    <section id="schermata-menu" class="schermata">
+      <p class="saluto" id="testo-saluto"></p>
+      <div class="box-storico" id="box-storico" style="display:none;"></div>
+
+      <div class="griglia-modi">
+        <button class="targa" data-modo="quiz">
+          <span class="numero-romano">I</span>
+          <span class="targa-testi">
+            <div class="targa-nome">Quiz Classico</div>
+            <div class="targa-desc">Domande a risposta aperta, tre tentativi ciascuna</div>
+          </span>
+          <span class="freccia">→</span>
+        </button>
+
+        <button class="targa" data-modo="ruota">
+          <span class="numero-romano">II</span>
+          <span class="targa-testi">
+            <div class="targa-nome">Ruota della Fortuna</div>
+            <div class="targa-desc">Scopri la frase misteriosa lettera per lettera</div>
+          </span>
+          <span class="freccia">→</span>
+        </button>
+
+        <button class="targa" data-modo="ghigliottina">
+          <span class="numero-romano">III</span>
+          <span class="targa-testi">
+            <div class="targa-nome">Ghigliottina</div>
+            <div class="targa-desc">Cinque indizi, una sola parola finale</div>
+          </span>
+          <span class="freccia">→</span>
+        </button>
+      </div>
+
+      <p class="messaggio-tutte-complete" id="messaggio-tutte-complete">
+        Hai completato tutte e tre le prove di questa run.
+      </p>
+    </section>
+
+    <!-- SCHERMATA: QUIZ CLASSICO (gameplay) -->
+    <section id="schermata-quiz" class="schermata">
+      <div class="barra-gioco">
+        <span class="progresso" id="quiz-progresso">Domanda 1/5</span>
+        <span class="punteggio-live" id="quiz-punteggio-live">0 pt</span>
+      </div>
+
+      <div class="carta-domanda">
+        <p class="testo-domanda" id="quiz-testo-domanda">—</p>
+      </div>
+
+      <div class="riga-risposta">
+        <input type="text" id="quiz-input-risposta" placeholder="Scrivi la tua risposta..." autocomplete="off">
+        <button class="bottone-oro compatto" id="quiz-btn-invia">Rispondi</button>
+      </div>
+
+      <div class="riga-tentativi" id="quiz-riga-tentativi"></div>
+
+      <p class="banner-esito" id="quiz-banner-esito"></p>
+    </section>
+
+    <!-- SCHERMATA: QUIZ CLASSICO (riepilogo) -->
+    <section id="schermata-quiz-fine" class="schermata">
+      <div class="riepilogo-fine">
+        <p class="etichetta" style="text-align:center;">Quiz Classico completato</p>
+        <div class="punteggio-grande" id="quiz-fine-punteggio">0</div>
+
+        <div class="griglia-statistiche">
+          <div class="statistica-box">
+            <div class="valore" id="quiz-fine-corrette">0</div>
+            <div class="etichetta-mini">Corrette</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="quiz-fine-sbagliate">0</div>
+            <div class="etichetta-mini">Sbagliate</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="quiz-fine-tentativi">0</div>
+            <div class="etichetta-mini">Tentativi</div>
+          </div>
+        </div>
+
+        <button class="bottone-oro" id="quiz-btn-torna-menu">Torna al menu</button>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: RUOTA DELLA FORTUNA (gameplay) -->
+    <section id="schermata-ruota" class="schermata">
+      <div class="barra-gioco">
+        <span class="progresso" id="ruota-tentativi-testo">Tentativi: 7</span>
+        <span class="punteggio-live" id="ruota-punteggio-live">0 pt</span>
+      </div>
+
+      <div class="frase-display" id="ruota-frase-display"></div>
+
+      <div class="riga-tentativi" id="ruota-riga-tentativi"></div>
+
+      <p class="banner-esito" id="ruota-banner-esito" style="margin-top:16px;"></p>
+
+      <div class="tastiera" id="ruota-tastiera"></div>
+
+      <p class="separatore-o">oppure</p>
+
+      <div class="riga-risposta">
+        <input type="text" id="ruota-input-frase" placeholder="Indovina la frase intera..." autocomplete="off">
+        <button class="bottone-oro compatto" id="ruota-btn-invia-frase">Indovina</button>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: RUOTA DELLA FORTUNA (riepilogo) -->
+    <section id="schermata-ruota-fine" class="schermata">
+      <div class="riepilogo-fine">
+        <p class="etichetta" style="text-align:center;">Ruota della Fortuna completata</p>
+        <div class="punteggio-grande" id="ruota-fine-punteggio">0</div>
+
+        <div class="griglia-statistiche">
+          <div class="statistica-box">
+            <div class="valore" id="ruota-fine-corrette">0</div>
+            <div class="etichetta-mini">Lettere giuste</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="ruota-fine-sbagliate">0</div>
+            <div class="etichetta-mini">Sbagliate</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="ruota-fine-tentativi">0</div>
+            <div class="etichetta-mini">Tentativi</div>
+          </div>
+        </div>
+
+        <button class="bottone-oro" id="ruota-btn-torna-menu">Torna al menu</button>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: GHIGLIOTTINA (gameplay) -->
+    <section id="schermata-ghigliottina" class="schermata">
+      <div class="barra-gioco">
+        <span class="progresso" id="ghigliottina-tentativi-testo">Tentativi: 5</span>
+        <span class="punteggio-live" id="ghigliottina-punteggio-live">0 pt</span>
+      </div>
+
+      <ul class="lista-indizi" id="ghigliottina-lista-indizi"></ul>
+
+      <div class="riga-risposta">
+        <input type="text" id="ghigliottina-input-parola" placeholder="La parola finale è..." autocomplete="off">
+        <button class="bottone-oro compatto" id="ghigliottina-btn-invia">Indovina</button>
+      </div>
+
+      <div class="riga-tentativi" id="ghigliottina-riga-tentativi"></div>
+
+      <p class="banner-esito" id="ghigliottina-banner-esito"></p>
+    </section>
+
+    <!-- SCHERMATA: GHIGLIOTTINA (riepilogo) -->
+    <section id="schermata-ghigliottina-fine" class="schermata">
+      <div class="riepilogo-fine">
+        <p class="etichetta" style="text-align:center;">Ghigliottina completata</p>
+        <div class="punteggio-grande" id="ghigliottina-fine-punteggio">0</div>
+
+        <div class="griglia-statistiche">
+          <div class="statistica-box">
+            <div class="valore" id="ghigliottina-fine-corrette">0</div>
+            <div class="etichetta-mini">Corrette</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="ghigliottina-fine-sbagliate">0</div>
+            <div class="etichetta-mini">Sbagliate</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="ghigliottina-fine-tentativi">0</div>
+            <div class="etichetta-mini">Tentativi</div>
+          </div>
+        </div>
+
+        <button class="bottone-oro" id="ghigliottina-btn-torna-menu">Torna al menu</button>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: RIEPILOGO FINALE RUN -->
+    <section id="schermata-riepilogo-finale" class="schermata">
+      <div class="riepilogo-fine">
+        <p class="etichetta" style="text-align:center;">Run completata</p>
+        <div class="punteggio-grande" id="riepilogo-punteggio-totale">0</div>
+
+        <div class="griglia-statistiche">
+          <div class="statistica-box">
+            <div class="valore" id="riepilogo-punti-quiz">0</div>
+            <div class="etichetta-mini">Quiz</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="riepilogo-punti-ruota">0</div>
+            <div class="etichetta-mini">Ruota</div>
+          </div>
+          <div class="statistica-box">
+            <div class="valore" id="riepilogo-punti-ghigliottina">0</div>
+            <div class="etichetta-mini">Ghigliottina</div>
+          </div>
+        </div>
+
+        <p class="box-storico" id="riepilogo-confronto" style="display:none;"></p>
+
+        <div class="azioni">
+          <button class="bottone-oro" id="btn-nuova-run">Rigioca (stesso nome)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: CLASSIFICA -->
+    <section id="schermata-classifica" class="schermata">
+      <div class="placeholder" style="padding-top:0;">
+        <p class="etichetta" style="text-align:center; margin-bottom:20px;">Migliori punteggi</p>
+
+        <ul class="lista-classifica" id="classifica-lista"></ul>
+        <p class="classifica-vuota" id="classifica-vuota" style="display:none;">Nessun punteggio salvato</p>
+
+        <button class="link-indietro" id="classifica-btn-indietro">← Indietro</button>
+      </div>
+    </section>
+
+    <!-- SCHERMATA: PLACEHOLDER (per i modi non ancora implementati) -->
+    <section id="schermata-placeholder" class="schermata">
+      <div class="placeholder">
+        <p id="testo-placeholder"></p>
+        <button class="link-indietro" id="btn-indietro">← Torna al menu</button>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<script>
+  // === STATO CONDIVISO (le fasi successive costruiranno su questo oggetto) ===
+  const statoGioco = {
+    nomeGiocatore: '',
+    punteggi: { quiz: 0, ruota: 0, ghigliottina: 0 },
+    completati: { quiz: false, ruota: false, ghigliottina: false },
+    storico: []
+  };
+
+  const CHIAVE_STORICO = 'quizmio-storico-partite';
+
+  // Salva lo storico: usa window.storage se disponibile (dentro Claude.ai),
+  // altrimenti localStorage (file aperto direttamente nel browser).
+  async function salvaStorico() {
+    const json = JSON.stringify(statoGioco.storico);
+    try {
+      if (window.storage) {
+        await window.storage.set(CHIAVE_STORICO, json);
+      } else if (window.localStorage) {
+        localStorage.setItem(CHIAVE_STORICO, json);
+      }
+    } catch (errore) {
+      console.error('Impossibile salvare lo storico:', errore);
+    }
+  }
+
+  async function caricaStorico() {
+    try {
+      if (window.storage) {
+        const risultato = await window.storage.get(CHIAVE_STORICO);
+        return risultato ? JSON.parse(risultato.value) : [];
+      } else if (window.localStorage) {
+        const dato = localStorage.getItem(CHIAVE_STORICO);
+        return dato ? JSON.parse(dato) : [];
+      }
+    } catch (errore) {
+      console.error('Impossibile caricare lo storico (probabilmente prima esecuzione):', errore);
+    }
+    return [];
+  }
+
+  // Caricamento iniziale: disabilitiamo "Entra in gioco" finché lo storico non è pronto,
+  // per evitare che il giocatore parta prima che i dati vecchi siano stati letti.
+  (async function inizializza() {
+    const btnEntra = document.getElementById('btn-entra');
+    const testoOriginale = btnEntra.textContent;
+    btnEntra.disabled = true;
+    btnEntra.textContent = 'Caricamento...';
+
+    statoGioco.storico = await caricaStorico();
+
+    btnEntra.disabled = false;
+    btnEntra.textContent = testoOriginale;
+  })();
+
+  const NOMI_MODI = {
+    quiz: 'Quiz Classico',
+    ruota: 'Ruota della Fortuna',
+    ghigliottina: 'Ghigliottina'
+  };
+
+  function mostraSchermata(id) {
+    document.querySelectorAll('.schermata').forEach(s => s.classList.remove('attiva'));
+    document.getElementById(id).classList.add('attiva');
+    document.getElementById('btn-esci-globale').style.display = (id === 'schermata-login') ? 'none' : 'block';
+  }
+
+  function usciDalGioco() {
+    // Abbandona la run: nessuna modalità è "terminata", quindi nessuna statistica viene registrata
+    statoGioco.nomeGiocatore = '';
+    statoGioco.punteggi = { quiz: 0, ruota: 0, ghigliottina: 0 };
+    statoGioco.completati = { quiz: false, ruota: false, ghigliottina: false };
+
+    document.getElementById('input-nome').value = '';
+    document.getElementById('errore-nome').textContent = '';
+
+    mostraSchermata('schermata-login');
+  }
+
+  function mostraClassifica() {
+    const top5 = [...statoGioco.storico]
+      .sort((a, b) => b.punteggioTotale - a.punteggioTotale)
+      .slice(0, 5);
+
+    const lista = document.getElementById('classifica-lista');
+    const vuota = document.getElementById('classifica-vuota');
+    lista.innerHTML = '';
+
+    if (top5.length === 0) {
+      lista.style.display = 'none';
+      vuota.style.display = 'block';
+    } else {
+      lista.style.display = 'flex';
+      vuota.style.display = 'none';
+
+      const numeriRomani = ['I', 'II', 'III', 'IV', 'V'];
+      top5.forEach((run, i) => {
+        const li = document.createElement('li');
+        li.className = 'riga-classifica';
+        li.innerHTML =
+          `<span class="numero-romano">${numeriRomani[i]}</span>` +
+          `<span class="nome-giocatore">${escapeHtml(run.nome)}</span>` +
+          `<span class="punteggio-classifica">${run.punteggioTotale} pt</span>`;
+        lista.appendChild(li);
+      });
+    }
+
+    mostraSchermata('schermata-classifica');
+  }
+
+  document.getElementById('btn-classifica-globale').addEventListener('click', mostraClassifica);
+  document.getElementById('classifica-btn-indietro').addEventListener('click', () => {
+    if (statoGioco.nomeGiocatore) {
+      aggiornaMenuModalita();
+      mostraSchermata('schermata-menu');
+    } else {
+      mostraSchermata('schermata-login');
+    }
+  });
+
+  document.getElementById('btn-esci-globale').addEventListener('click', usciDalGioco);
+
+  function aggiornaMenuModalita() {
+    let tutteComplete = true;
+
+    document.querySelectorAll('.targa').forEach(btn => {
+      const modo = btn.dataset.modo;
+      const completata = statoGioco.completati[modo];
+      const indicatore = btn.querySelector('.freccia, .segno-fatto');
+
+      btn.classList.toggle('completata', completata);
+      btn.disabled = completata;
+
+      if (completata) {
+        indicatore.className = 'segno-fatto';
+        indicatore.textContent = '✓ Fatto';
+      } else {
+        indicatore.className = 'freccia';
+        indicatore.textContent = '→';
+        tutteComplete = false;
+      }
+    });
+
+    document.getElementById('messaggio-tutte-complete').classList.toggle('visibile', tutteComplete);
+    return tutteComplete;
+  }
+
+  function mostraRiepilogoFinale() {
+    const totale = statoGioco.punteggi.quiz + statoGioco.punteggi.ruota + statoGioco.punteggi.ghigliottina;
+
+    document.getElementById('riepilogo-punteggio-totale').textContent = totale;
+    document.getElementById('riepilogo-punti-quiz').textContent = statoGioco.punteggi.quiz;
+    document.getElementById('riepilogo-punti-ruota').textContent = statoGioco.punteggi.ruota;
+    document.getElementById('riepilogo-punti-ghigliottina').textContent = statoGioco.punteggi.ghigliottina;
+
+    // Confronto con l'ultima run dello STESSO giocatore, salvata in modo persistente
+    const runPrecedenti = statoGioco.storico.filter(
+      p => p.nome.toLowerCase() === statoGioco.nomeGiocatore.toLowerCase()
+    );
+    const boxConfronto = document.getElementById('riepilogo-confronto');
+
+    if (runPrecedenti.length > 0) {
+      const precedente = runPrecedenti[runPrecedenti.length - 1];
+      const differenza = totale - precedente.punteggioTotale;
+      let testo;
+      if (differenza > 0) testo = `📈 Migliorato rispetto all'ultima run: <strong>+${differenza} punti</strong>`;
+      else if (differenza < 0) testo = `📉 Rispetto all'ultima run: <strong>${differenza} punti</strong>`;
+      else testo = `➖ Stesso punteggio dell'ultima run (<strong>${totale}</strong>)`;
+      boxConfronto.innerHTML = testo;
+      boxConfronto.style.display = 'block';
+    } else {
+      boxConfronto.innerHTML = 'Prima run registrata per questo nome.';
+      boxConfronto.style.display = 'block';
+    }
+
+    // Registra la run corrente nello storico e la persiste
+    statoGioco.storico.push({
+      nome: statoGioco.nomeGiocatore,
+      punteggioTotale: totale,
+      data: new Date().toISOString()
+    });
+    salvaStorico();
+
+    mostraSchermata('schermata-riepilogo-finale');
+    document.getElementById('btn-nuova-run').focus();
+  }
+
+  function iniziaNuovaRun() {
+    statoGioco.punteggi = { quiz: 0, ruota: 0, ghigliottina: 0 };
+    statoGioco.completati = { quiz: false, ruota: false, ghigliottina: false };
+    aggiornaMenuModalita();
+    mostraSchermata('schermata-menu');
+    document.querySelector('.targa:not(:disabled)')?.focus();
+  }
+
+  document.getElementById('btn-nuova-run').addEventListener('click', iniziaNuovaRun);
+
+  function entraInGioco() {
+    const input = document.getElementById('input-nome');
+    const errore = document.getElementById('errore-nome');
+    const nome = input.value.trim();
+
+    if (nome === '') {
+      errore.textContent = 'Il nome non può essere vuoto.';
+      input.focus();
+      return;
+    }
+
+    errore.textContent = '';
+    statoGioco.nomeGiocatore = nome;
+    statoGioco.completati = { quiz: false, ruota: false, ghigliottina: false };
+
+    document.getElementById('testo-saluto').innerHTML =
+      `Benvenuto, <strong>${escapeHtml(nome)}</strong>. Scegli la prova da affrontare.`;
+
+    // Se questo nome ha già giocato in questa sessione, mostra l'ultimo punteggio
+    const runPrecedenti = statoGioco.storico.filter(
+      p => p.nome.toLowerCase() === nome.toLowerCase()
+    );
+    const boxStorico = document.getElementById('box-storico');
+
+    if (runPrecedenti.length > 0) {
+      const ultima = runPrecedenti[runPrecedenti.length - 1];
+      boxStorico.innerHTML =
+        `Bentornato! Partite giocate finora: <strong>${runPrecedenti.length}</strong> — ` +
+        `ultimo punteggio: <strong>${ultima.punteggioTotale}</strong>`;
+      boxStorico.style.display = 'block';
+    } else {
+      boxStorico.style.display = 'none';
+    }
+
+    aggiornaMenuModalita();
+    mostraSchermata('schermata-menu');
+    document.querySelector('.targa:not(:disabled)')?.focus();
+  }
+
+  function apriModalita(modo) {
+    if (statoGioco.completati[modo]) return; // già giocata in questa run
+
+    if (modo === 'quiz') {
+      iniziaQuiz();
+      return;
+    }
+    if (modo === 'ruota') {
+      iniziaRuota();
+      return;
+    }
+    if (modo === 'ghigliottina') {
+      iniziaGhigliottina();
+      return;
+    }
+    document.getElementById('testo-placeholder').textContent =
+      `La modalità "${NOMI_MODI[modo]}" verrà costruita in una fase successiva. Struttura e navigazione sono già pronte per riceverla.`;
+    mostraSchermata('schermata-placeholder');
+  }
+
+  function escapeHtml(testo) {
+    const div = document.createElement('div');
+    div.textContent = testo;
+    return div.innerHTML;
+  }
+
+  // ==========================================================
+  // QUIZ CLASSICO — stessa logica del backend C#: pool di 20
+  // domande, ne peschiamo 5 a caso ad ogni partita, 3 tentativi
+  // ciascuna, punteggio proporzionale ai tentativi rimasti.
+  // ==========================================================
+  const POOL_DOMANDE_QUIZ = [
+    { testo: "Qual è la capitale dell'Italia?", risposte: ["Roma"] },
+    { testo: "Quale pianeta è il più grande del sistema solare?", risposte: ["Giove"] },
+    { testo: "In che anno è caduto il Muro di Berlino?", risposte: ["1989"] },
+    { testo: "Qual è il fiume più lungo d'Italia?", risposte: ["Po"] },
+    { testo: "Chi ha dipinto la Gioconda?", risposte: ["Leonardo", "leonardo da vinci"] },
+    { testo: "Qual è l'oceano più esteso del pianeta?", risposte: ["Pacifico"] },
+    { testo: "Qual è la valuta ufficiale del Giappone?", risposte: ["Yen"] },
+    { testo: "In quale anno è iniziata la Prima Guerra Mondiale?", risposte: ["1914"] },
+    { testo: "Qual è il pianeta più vicino al Sole?", risposte: ["Mercurio"] },
+    { testo: "Chi ha scritto la Divina Commedia?", risposte: ["Dante", "dante alighieri"] },
+    { testo: "Qual è la montagna più alta d'Italia?", risposte: ["Monte Bianco"] },
+    { testo: "Quanti lati ha un esagono?", risposte: ["6", "sei"] },
+    { testo: "Qual è la capitale della Francia?", risposte: ["Parigi"] },
+    { testo: "In che anno l'uomo è sbarcato sulla Luna per la prima volta?", risposte: ["1969"] },
+    { testo: "Qual è il simbolo chimico dell'ossigeno?", risposte: ["O", "ossigeno"] },
+    { testo: "Chi ha composto la Nona Sinfonia?", risposte: ["Beethoven", "ludwig van beethoven"] },
+    { testo: "Qual è la lingua ufficiale del Brasile?", risposte: ["Portoghese"] },
+    { testo: "Quale gas assorbono principalmente le piante per la fotosintesi?", risposte: ["Anidride carbonica", "co2"] },
+    { testo: "Qual è la capitale dell'Australia?", risposte: ["Canberra"] },
+    { testo: "In quale anno è stata fondata Roma secondo la tradizione?", risposte: ["753"] },
+    { testo: "Qual è la capitale della Spagna?", risposte: ["Madrid"] },
+    { testo: "Quale pianeta è conosciuto come il pianeta rosso?", risposte: ["Marte"] },
+    { testo: "In che anno è terminata la Seconda Guerra Mondiale?", risposte: ["1945"] },
+    { testo: "Qual è il mare che bagna la costa toscana?", risposte: ["Tirreno"] },
+    { testo: "Chi ha scritto \"I Promessi Sposi\"?", risposte: ["Manzoni", "alessandro manzoni"] },
+    { testo: "Qual è la capitale del Portogallo?", risposte: ["Lisbona"] },
+    { testo: "Quanti pianeti ci sono nel sistema solare?", risposte: ["8", "otto"] },
+    { testo: "Qual è il simbolo chimico del ferro?", risposte: ["Fe", "ferro"] },
+    { testo: "In quale anno Cristoforo Colombo scoprì l'America?", risposte: ["1492"] },
+    { testo: "Qual è la capitale della Germania?", risposte: ["Berlino"] },
+    { testo: "Chi ha dipinto la volta della Cappella Sistina?", risposte: ["Michelangelo", "michelangelo buonarroti"] },
+    { testo: "Qual è il vulcano attivo più alto d'Europa?", risposte: ["Etna"] },
+    { testo: "Quanti giorni ha un anno bisestile?", risposte: ["366"] },
+    { testo: "Qual è la capitale della Russia?", risposte: ["Mosca"] },
+    { testo: "Chi ha formulato la teoria della relatività?", risposte: ["Einstein", "albert einstein"] },
+    { testo: "Qual è il lago più grande d'Italia?", risposte: ["Garda"] },
+    { testo: "In che anno è stata proclamata la Repubblica Italiana?", risposte: ["1946"] },
+    { testo: "Qual è la galassia più vicina alla Via Lattea?", risposte: ["Andromeda"] },
+    { testo: "Qual è il simbolo chimico dell'oro?", risposte: ["Au", "oro"] },
+    { testo: "Chi ha composto \"Le Quattro Stagioni\"?", risposte: ["Vivaldi", "antonio vivaldi"] },
+    { testo: "Qual è la capitale del Canada?", risposte: ["Ottawa"] },
+    { testo: "Qual è il deserto più esteso al mondo?", risposte: ["Sahara"] },
+    { testo: "In che anno è caduto l'Impero Romano d'Occidente?", risposte: ["476"] },
+    { testo: "Qual è la moneta ufficiale del Regno Unito?", risposte: ["Sterlina"] },
+    { testo: "Chi ha scoperto la penicillina?", risposte: ["Fleming", "alexander fleming"] },
+    { testo: "Qual è il pianeta con gli anelli più visibili?", risposte: ["Saturno"] },
+    { testo: "Qual è la capitale della Grecia?", risposte: ["Atene"] },
+    { testo: "Quante corde ha una chitarra classica?", risposte: ["6", "sei"] },
+    { testo: "Chi ha diretto il film \"La vita è bella\"?", risposte: ["Benigni", "roberto benigni"] },
+    { testo: "Qual è l'osso più lungo del corpo umano?", risposte: ["Femore"] }
+  ];
+
+  const TENTATIVI_PER_DOMANDA = 3;
+  const NUMERO_DOMANDE_PARTITA = 5;
+
+  const quizState = {
+    domande: [],
+    indice: 0,
+    tentativiRimanenti: TENTATIVI_PER_DOMANDA,
+    punteggio: 0,
+    risposteCorrette: 0,
+    risposteSbagliate: 0,
+    tentativiUtilizzati: 0
+  };
+
+  function mescolaEstrai(pool, quanti) {
+    // Fisher-Yates parziale: mescola una copia del pool, poi prende i primi N
+    const copia = [...pool];
+    for (let i = copia.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [copia[i], copia[j]] = [copia[j], copia[i]];
+    }
+    return copia.slice(0, quanti);
+  }
+
+  function iniziaQuiz() {
+    quizState.domande = mescolaEstrai(POOL_DOMANDE_QUIZ, NUMERO_DOMANDE_PARTITA);
+    quizState.indice = 0;
+    quizState.tentativiRimanenti = TENTATIVI_PER_DOMANDA;
+    quizState.punteggio = 0;
+    quizState.risposteCorrette = 0;
+    quizState.risposteSbagliate = 0;
+    quizState.tentativiUtilizzati = 0;
+
+    mostraSchermata('schermata-quiz');
+    renderDomandaQuiz();
+  }
+
+  function renderDomandaQuiz() {
+    const domanda = quizState.domande[quizState.indice];
+
+    document.getElementById('quiz-progresso').textContent =
+      `Domanda ${quizState.indice + 1}/${quizState.domande.length}`;
+    document.getElementById('quiz-punteggio-live').textContent = `${quizState.punteggio} pt`;
+    document.getElementById('quiz-testo-domanda').textContent = domanda.testo;
+
+    const input = document.getElementById('quiz-input-risposta');
+    input.value = '';
+    input.focus();
+
+    const banner = document.getElementById('quiz-banner-esito');
+    banner.textContent = '';
+    banner.className = 'banner-esito';
+
+    renderGettoniTentativi();
+  }
+
+  function renderGettoniTentativi() {
+    const riga = document.getElementById('quiz-riga-tentativi');
+    riga.innerHTML = '';
+    const usati = TENTATIVI_PER_DOMANDA - quizState.tentativiRimanenti;
+    for (let i = 0; i < TENTATIVI_PER_DOMANDA; i++) {
+      const gettone = document.createElement('span');
+      gettone.className = 'gettone' + (i < usati ? ' usato' : '');
+      riga.appendChild(gettone);
+    }
+  }
+
+  function inviaRispostaQuiz() {
+    const domanda = quizState.domande[quizState.indice];
+    const input = document.getElementById('quiz-input-risposta');
+    const risposta = input.value.trim().toLowerCase();
+    const banner = document.getElementById('quiz-banner-esito');
+
+    if (risposta === '') {
+      input.focus();
+      return;
+    }
+
+    quizState.tentativiUtilizzati++;
+
+    // Accettiamo qualunque variante presente nell'array "risposte" (case-insensitive)
+    const corretta = domanda.risposte.some(r => r.toLowerCase() === risposta);
+
+    if (corretta) {
+      const punti = quizState.tentativiRimanenti * 100;
+      quizState.punteggio += punti;
+      quizState.risposteCorrette++;
+
+      banner.textContent = `✓ Corretto! +${punti} punti`;
+      banner.className = 'banner-esito corretto';
+
+      setTimeout(avanzaProssimaDomanda, 900);
+    } else {
+      quizState.tentativiRimanenti--;
+      renderGettoniTentativi();
+
+      if (quizState.tentativiRimanenti <= 0) {
+        quizState.risposteSbagliate++;
+        banner.textContent = `✗ Sbagliato! La risposta corretta era: ${domanda.risposte[0]}`;
+        banner.className = 'banner-esito sbagliato';
+        setTimeout(avanzaProssimaDomanda, 1400);
+      } else {
+        banner.textContent = '✗ Sbagliato, riprova.';
+        banner.className = 'banner-esito sbagliato';
+        input.value = '';
+        input.focus();
+      }
+    }
+  }
+
+  function avanzaProssimaDomanda() {
+    quizState.indice++;
+    quizState.tentativiRimanenti = TENTATIVI_PER_DOMANDA;
+
+    if (quizState.indice >= quizState.domande.length) {
+      terminaQuiz();
+    } else {
+      renderDomandaQuiz();
+    }
+  }
+
+  function terminaQuiz() {
+    statoGioco.punteggi.quiz = quizState.punteggio;
+    statoGioco.completati.quiz = true;
+
+    document.getElementById('quiz-fine-punteggio').textContent = quizState.punteggio;
+    document.getElementById('quiz-fine-corrette').textContent = quizState.risposteCorrette;
+    document.getElementById('quiz-fine-sbagliate').textContent = quizState.risposteSbagliate;
+    document.getElementById('quiz-fine-tentativi').textContent = quizState.tentativiUtilizzati;
+
+    mostraSchermata('schermata-quiz-fine');
+  }
+
+  document.getElementById('quiz-btn-invia').addEventListener('click', inviaRispostaQuiz);
+  document.getElementById('quiz-input-risposta').addEventListener('keydown', e => {
+    if (e.key === 'Enter') inviaRispostaQuiz();
+  });
+  document.getElementById('quiz-btn-torna-menu').addEventListener('click', () => {
+    const tutteComplete = aggiornaMenuModalita();
+    if (tutteComplete) mostraRiepilogoFinale();
+    else mostraSchermata('schermata-menu');
+  });
+
+  // ==========================================================
+  // RUOTA DELLA FORTUNA — pool di 20 frasi, 7 tentativi totali,
+  // +50 per lettera indovinata, +500 per la frase intera.
+  // ==========================================================
+  const POOL_FRASI_RUOTA = [
+    "La vita è bella",
+    "Chi va piano va sano e va lontano",
+    "Meglio tardi che mai",
+    "Non è tutto oro quel che luccica",
+    "Chi dorme non piglia pesci",
+    "Il mattino ha l'oro in bocca",
+    "Tra il dire e il fare c'è di mezzo il mare",
+    "L'unione fa la forza",
+    "Ride bene chi ride ultimo",
+    "Chi trova un amico trova un tesoro",
+    "Rosso di sera bel tempo si spera",
+    "Tutte le strade portano a Roma",
+    "Chi la fa l'aspetti",
+    "Volere è potere",
+    "Il tempo è denaro",
+    "L'erba del vicino è sempre più verde",
+    "Non tutti i mali vengono per nuocere",
+    "A caval donato non si guarda in bocca",
+    "Chi semina vento raccoglie tempesta",
+    "Ogni promessa è debito"
+  ];
+
+  const TENTATIVI_TOTALI_RUOTA = 7;
+  const ALFABETO = "abcdefghijklmnopqrstuvwxyz".split('');
+
+  const ruotaState = {
+    frase: '',
+    lettereProvate: new Set(),
+    tentativiRimanenti: TENTATIVI_TOTALI_RUOTA,
+    punteggio: 0,
+    risposteCorrette: 0,
+    risposteSbagliate: 0,
+    tentativiUtilizzati: 0,
+    finita: false
+  };
+
+  function normalizzaLettera(c) {
+    // Confrontiamo ignorando gli accenti (è -> e) così la tastiera resta A-Z
+    return c.normalize('NFD').replace(/[\u0300-\u036f]/g, '').toLowerCase();
+  }
+
+  function iniziaRuota() {
+    ruotaState.frase = POOL_FRASI_RUOTA[Math.floor(Math.random() * POOL_FRASI_RUOTA.length)];
+    ruotaState.lettereProvate = new Set();
+    ruotaState.tentativiRimanenti = TENTATIVI_TOTALI_RUOTA;
+    ruotaState.punteggio = 0;
+    ruotaState.risposteCorrette = 0;
+    ruotaState.risposteSbagliate = 0;
+    ruotaState.tentativiUtilizzati = 0;
+    ruotaState.finita = false;
+
+    costruisciTastieraRuota();
+    document.getElementById('ruota-input-frase').value = '';
+    document.getElementById('ruota-banner-esito').textContent = '';
+    document.getElementById('ruota-banner-esito').className = 'banner-esito';
+
+    mostraSchermata('schermata-ruota');
+    renderRuota();
+  }
+
+  function costruisciTastieraRuota() {
+    const tastiera = document.getElementById('ruota-tastiera');
+    tastiera.innerHTML = '';
+    ALFABETO.forEach(lettera => {
+      const btn = document.createElement('button');
+      btn.className = 'tasto-lettera';
+      btn.textContent = lettera;
+      btn.addEventListener('click', () => provaLetteraRuota(lettera));
+      tastiera.appendChild(btn);
+    });
+  }
+
+  function renderRuota() {
+    document.getElementById('ruota-tentativi-testo').textContent = `Tentativi: ${ruotaState.tentativiRimanenti}`;
+    document.getElementById('ruota-punteggio-live').textContent = `${ruotaState.punteggio} pt`;
+
+    const display = document.getElementById('ruota-frase-display');
+    display.innerHTML = '';
+
+    // Raggruppiamo le lettere per parola (split solo sugli spazi veri),
+    // così ogni parola resta un blocco unico e va a capo solo nel suo insieme.
+    const parole = ruotaState.frase.split(' ');
+
+    parole.forEach(parola => {
+      const gruppo = document.createElement('span');
+      gruppo.className = 'parola-gruppo';
+
+      for (const c of parola) {
+        const tile = document.createElement('span');
+        if (/[a-zA-Zàèéìòù]/.test(c)) {
+          const norm = normalizzaLettera(c);
+          if (ruotaState.lettereProvate.has(norm)) {
+            tile.className = 'lettera-tile riempita';
+            tile.textContent = c;
+          } else {
+            tile.className = 'lettera-tile vuota';
+            tile.textContent = c;
+          }
+        } else {
+          tile.className = 'lettera-tile riempita';
+          tile.textContent = c;
+        }
+        gruppo.appendChild(tile);
+      }
+
+      display.appendChild(gruppo);
+    });
+
+    renderGettoniRuota();
+  }
+
+  function renderGettoniRuota() {
+    const riga = document.getElementById('ruota-riga-tentativi');
+    riga.innerHTML = '';
+    const usati = TENTATIVI_TOTALI_RUOTA - ruotaState.tentativiRimanenti;
+    for (let i = 0; i < TENTATIVI_TOTALI_RUOTA; i++) {
+      const gettone = document.createElement('span');
+      gettone.className = 'gettone' + (i < usati ? ' usato' : '');
+      riga.appendChild(gettone);
+    }
+  }
+
+  function mostraEsitoRuota(testo, classe) {
+    const banner = document.getElementById('ruota-banner-esito');
+    banner.textContent = testo;
+    banner.className = 'banner-esito ' + classe;
+  }
+
+  function provaLetteraRuota(lettera) {
+    if (ruotaState.finita || ruotaState.lettereProvate.has(lettera)) return;
+
+    ruotaState.tentativiUtilizzati++;
+    ruotaState.lettereProvate.add(lettera);
+
+    const fraseNormalizzata = normalizzaLettera(ruotaState.frase);
+    const bottoneTastiera = [...document.querySelectorAll('.tasto-lettera')]
+      .find(b => b.textContent === lettera);
+
+    if (fraseNormalizzata.includes(lettera)) {
+      ruotaState.punteggio += 50;
+      ruotaState.risposteCorrette++;
+      mostraEsitoRuota('✓ Lettera trovata! +50 punti', 'corretto');
+      if (bottoneTastiera) bottoneTastiera.classList.add('corretta');
+    } else {
+      ruotaState.tentativiRimanenti--;
+      ruotaState.risposteSbagliate++;
+      mostraEsitoRuota('✗ Lettera non presente.', 'sbagliato');
+      if (bottoneTastiera) bottoneTastiera.classList.add('sbagliata');
+    }
+
+    if (bottoneTastiera) bottoneTastiera.disabled = true;
+
+    renderRuota();
+    valutaFineRuota();
+  }
+
+  function provaFraseInteraRuota() {
+    if (ruotaState.finita) return;
+
+    const input = document.getElementById('ruota-input-frase');
+    const tentativo = input.value.trim();
+    if (tentativo === '') { input.focus(); return; }
+
+    ruotaState.tentativiUtilizzati++;
+    input.value = '';
+
+    if (normalizzaLettera(tentativo) === normalizzaLettera(ruotaState.frase)) {
+      ruotaState.punteggio += 500;
+      ruotaState.risposteCorrette++;
+      mostraEsitoRuota('✓ Frase corretta! +500 punti', 'corretto');
+      ruotaState.frase.split('').forEach(c => {
+        if (/[a-zA-Zàèéìòù]/.test(c)) ruotaState.lettereProvate.add(normalizzaLettera(c));
+      });
+      terminaRuota();
+    } else {
+      ruotaState.tentativiRimanenti--;
+      ruotaState.risposteSbagliate++;
+      mostraEsitoRuota('✗ Frase sbagliata.', 'sbagliato');
+      renderRuota();
+      valutaFineRuota();
+    }
+  }
+
+  function fraseCompletaRuota() {
+    return ruotaState.frase.split('')
+      .filter(c => /[a-zA-Zàèéìòù]/.test(c))
+      .every(c => ruotaState.lettereProvate.has(normalizzaLettera(c)));
+  }
+
+  function valutaFineRuota() {
+    if (fraseCompletaRuota()) {
+      mostraEsitoRuota('✓ Frase completata!', 'corretto');
+      terminaRuota();
+    } else if (ruotaState.tentativiRimanenti <= 0) {
+      terminaRuota();
+    }
+  }
+
+  function terminaRuota() {
+    ruotaState.finita = true;
+    statoGioco.punteggi.ruota = ruotaState.punteggio;
+    statoGioco.completati.ruota = true;
+
+    document.getElementById('ruota-fine-punteggio').textContent = ruotaState.punteggio;
+    document.getElementById('ruota-fine-corrette').textContent = ruotaState.risposteCorrette;
+    document.getElementById('ruota-fine-sbagliate').textContent = ruotaState.risposteSbagliate;
+    document.getElementById('ruota-fine-tentativi').textContent = ruotaState.tentativiUtilizzati;
+
+    setTimeout(() => mostraSchermata('schermata-ruota-fine'), 900);
+  }
+
+  document.getElementById('ruota-btn-invia-frase').addEventListener('click', provaFraseInteraRuota);
+  document.getElementById('ruota-input-frase').addEventListener('keydown', e => {
+    if (e.key === 'Enter') provaFraseInteraRuota();
+  });
+  document.getElementById('ruota-btn-torna-menu').addEventListener('click', () => {
+    const tutteComplete = aggiornaMenuModalita();
+    if (tutteComplete) mostraRiepilogoFinale();
+    else mostraSchermata('schermata-menu');
+  });
+
+  // ==========================================================
+  // GHIGLIOTTINA — pool di 20 schemi (parola finale + 5 indizi),
+  // 5 tentativi totali, punteggio = tentativi rimasti × 500.
+  // ==========================================================
+  const POOL_SCHEMI_GHIGLIOTTINA = [
+    { parola: "Tempo",  indizi: ["Denaro", "Vola", "Cronometro", "Squadra", "Scadenza"] },
+    { parola: "Mare",   indizi: ["Onda", "Aperto", "Cavallo", "Profondo", "Salato"] },
+    { parola: "Pane",   indizi: ["Fresco", "Quotidiano", "Forno", "Burro", "Duro"] },
+    { parola: "Cuore",  indizi: ["Battito", "Fedele", "Aperto", "Spezzato", "Rosso"] },
+    { parola: "Luna",   indizi: ["Piena", "Park", "Miele", "Nuova", "Chiaro"] },
+    { parola: "Fuoco",  indizi: ["Amico", "Lento", "Artificio", "Spegnere", "Acceso"] },
+    { parola: "Vento",  indizi: ["Forte", "Contrario", "Girasole", "Marino", "Soffiare"] },
+    { parola: "Sole",   indizi: ["Nascente", "Occhiali", "Bagno", "Tramonto", "Girasole"] },
+    { parola: "Acqua",  indizi: ["Minerale", "Potabile", "Salata", "Corrente", "Dolce"] },
+    { parola: "Ferro",  indizi: ["Battuto", "Stiro", "Cavallo", "Vecchio", "Filo"] },
+    { parola: "Stella", indizi: ["Cadente", "Marina", "Polare", "Cometa", "Alpina"] },
+    { parola: "Chiave", indizi: ["Inglese", "Porta", "Musicale", "Segreta", "Universale"] },
+    { parola: "Porta",  indizi: ["Blindata", "Aperta", "Girevole", "Bandiera", "Fortuna"] },
+    { parola: "Terra",  indizi: ["Madre", "Promessa", "Ferma", "Bruciata", "Sacra"] },
+    { parola: "Vita",   indizi: ["Notturna", "Privata", "Vera", "Selvaggia", "Quotidiana"] },
+    { parola: "Testa",  indizi: ["Calda", "Dura", "Rasata", "Vuota", "Alta"] },
+    { parola: "Mano",   indizi: ["Libera", "Destra", "Amica", "Tesa", "Aperta"] },
+    { parola: "Occhio", indizi: ["Nudo", "Vigile", "Clinico", "Magico", "Esperto"] },
+    { parola: "Voce",   indizi: ["Alta", "Bianca", "Grossa", "Rotta", "Narrante"] },
+    { parola: "Aria",   indizi: ["Aperta", "Fritta", "Condizionata", "Fresca", "Pulita"] }
+  ];
+
+  const TENTATIVI_TOTALI_GHIGLIOTTINA = 5;
+
+  const ghigliottinaState = {
+    parolaFinale: '',
+    paroleIndizio: [],
+    tentativiRimanenti: TENTATIVI_TOTALI_GHIGLIOTTINA,
+    punteggio: 0,
+    risposteCorrette: 0,
+    risposteSbagliate: 0,
+    tentativiUtilizzati: 0
+  };
+
+  function iniziaGhigliottina() {
+    const schema = POOL_SCHEMI_GHIGLIOTTINA[Math.floor(Math.random() * POOL_SCHEMI_GHIGLIOTTINA.length)];
+    ghigliottinaState.parolaFinale = schema.parola;
+    ghigliottinaState.paroleIndizio = schema.indizi;
+    ghigliottinaState.tentativiRimanenti = TENTATIVI_TOTALI_GHIGLIOTTINA;
+    ghigliottinaState.punteggio = 0;
+    ghigliottinaState.risposteCorrette = 0;
+    ghigliottinaState.risposteSbagliate = 0;
+    ghigliottinaState.tentativiUtilizzati = 0;
+
+    document.getElementById('ghigliottina-input-parola').value = '';
+    document.getElementById('ghigliottina-banner-esito').textContent = '';
+    document.getElementById('ghigliottina-banner-esito').className = 'banner-esito';
+
+    renderGhigliottina();
+    mostraSchermata('schermata-ghigliottina');
+    document.getElementById('ghigliottina-input-parola').focus();
+  }
+
+  function renderGhigliottina() {
+    document.getElementById('ghigliottina-tentativi-testo').textContent =
+      `Tentativi: ${ghigliottinaState.tentativiRimanenti}`;
+    document.getElementById('ghigliottina-punteggio-live').textContent = `${ghigliottinaState.punteggio} pt`;
+
+    const lista = document.getElementById('ghigliottina-lista-indizi');
+    lista.innerHTML = '';
+    ghigliottinaState.paroleIndizio.forEach((parola, i) => {
+      const li = document.createElement('li');
+      li.innerHTML = `<span class="indizio-numero">${i + 1}</span><span>${escapeHtml(parola)}</span>`;
+      lista.appendChild(li);
+    });
+
+    const riga = document.getElementById('ghigliottina-riga-tentativi');
+    riga.innerHTML = '';
+    const usati = TENTATIVI_TOTALI_GHIGLIOTTINA - ghigliottinaState.tentativiRimanenti;
+    for (let i = 0; i < TENTATIVI_TOTALI_GHIGLIOTTINA; i++) {
+      const gettone = document.createElement('span');
+      gettone.className = 'gettone' + (i < usati ? ' usato' : '');
+      riga.appendChild(gettone);
+    }
+  }
+
+  function inviaRispostaGhigliottina() {
+    const input = document.getElementById('ghigliottina-input-parola');
+    const risposta = input.value.trim();
+    const banner = document.getElementById('ghigliottina-banner-esito');
+
+    if (risposta === '') { input.focus(); return; }
+
+    ghigliottinaState.tentativiUtilizzati++;
+
+    if (risposta.toLowerCase() === ghigliottinaState.parolaFinale.toLowerCase()) {
+      const punti = ghigliottinaState.tentativiRimanenti * 500;
+      ghigliottinaState.punteggio += punti;
+      ghigliottinaState.risposteCorrette++;
+
+      banner.textContent = `✓ Esatto! La parola era: ${ghigliottinaState.parolaFinale} (+${punti} punti)`;
+      banner.className = 'banner-esito corretto';
+
+      setTimeout(terminaGhigliottina, 1300);
+    } else {
+      ghigliottinaState.tentativiRimanenti--;
+      ghigliottinaState.risposteSbagliate++;
+      input.value = '';
+
+      if (ghigliottinaState.tentativiRimanenti > 0) {
+        banner.textContent = '✗ Sbagliato, riprova.';
+        banner.className = 'banner-esito sbagliato';
+        input.focus();
+        renderGhigliottina();
+      } else {
+        banner.textContent = `✗ Peccato! La parola era: ${ghigliottinaState.parolaFinale}`;
+        banner.className = 'banner-esito sbagliato';
+        renderGhigliottina();
+        setTimeout(terminaGhigliottina, 1600);
+      }
+    }
+  }
+
+  function terminaGhigliottina() {
+    statoGioco.punteggi.ghigliottina = ghigliottinaState.punteggio;
+    statoGioco.completati.ghigliottina = true;
+
+    document.getElementById('ghigliottina-fine-punteggio').textContent = ghigliottinaState.punteggio;
+    document.getElementById('ghigliottina-fine-corrette').textContent = ghigliottinaState.risposteCorrette;
+    document.getElementById('ghigliottina-fine-sbagliate').textContent = ghigliottinaState.risposteSbagliate;
+    document.getElementById('ghigliottina-fine-tentativi').textContent = ghigliottinaState.tentativiUtilizzati;
+
+    mostraSchermata('schermata-ghigliottina-fine');
+  }
+
+  document.getElementById('ghigliottina-btn-invia').addEventListener('click', inviaRispostaGhigliottina);
+  document.getElementById('ghigliottina-input-parola').addEventListener('keydown', e => {
+    if (e.key === 'Enter') inviaRispostaGhigliottina();
+  });
+  document.getElementById('ghigliottina-btn-torna-menu').addEventListener('click', () => {
+    const tutteComplete = aggiornaMenuModalita();
+    if (tutteComplete) mostraRiepilogoFinale();
+    else mostraSchermata('schermata-menu');
+  });
+
+  document.getElementById('btn-entra').addEventListener('click', entraInGioco);
+  document.getElementById('input-nome').addEventListener('keydown', e => {
+    if (e.key === 'Enter') entraInGioco();
+  });
+
+  document.querySelectorAll('.targa').forEach(btn => {
+    btn.addEventListener('click', () => apriModalita(btn.dataset.modo));
+  });
+
+  document.getElementById('btn-indietro').addEventListener('click', () => mostraSchermata('schermata-menu'));
+</script>
+
+</body>
+</html>

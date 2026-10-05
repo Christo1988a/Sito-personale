@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ElecWork Manager — Demo | Marco Cristofari</title>
+<script>
+  // Applica subito il tema salvato per evitare il flash bianco/scuro al caricamento
+  (function () {
+    var tema = localStorage.getItem('tema');
+    if (tema) document.documentElement.setAttribute('data-theme', tema);
+  })();
+</script>
+<script src="transitions.js" defer></script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<link rel="icon" href="favicon.png">
+<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="gestionale-demo.css">
+</head>
+<body class="page-hidden gestionale-body">
+
+  <header class="gestionale-topbar">
+    <a href="progetti.html" class="gestionale-back-link">← Portfolio</a>
+    <div class="gestionale-topbar-title">
+      <span class="gestionale-topbar-badge">Demo interattiva</span>
+      <h1>ElecWork Manager</h1>
+    </div>
+    <div class="gestionale-topbar-actions">
+      <button type="button" class="gestionale-btn" id="gestionaleThemeToggle" title="Cambia tema">🌓 Tema</button>
+      <button type="button" class="gestionale-btn gestionale-btn-danger" id="gestionaleBtnReset">Ripristina dati demo</button>
+    </div>
+  </header>
+
+  <p class="gestionale-disclaimer">
+    Questa è una ricostruzione in HTML/JS della logica dell'app desktop C# reale, solo a scopo dimostrativo. I dati che inserisci restano salvati esclusivamente nel tuo browser (localStorage) — nessun collegamento al database dell'applicazione originale.
+  </p>
+
+  <div class="gestionale-layout">
+    <nav class="gestionale-sidebar" id="gestionaleSidebar" aria-label="Moduli gestionale"></nav>
+    <main class="gestionale-main" id="gestionaleMain"></main>
+  </div>
+
+  <div class="gestionale-modal-overlay" id="gestionaleModalOverlay">
+    <div class="gestionale-modal" id="gestionaleModal"></div>
+  </div>
+
+  <script src="gestionale-demo.js" defer></script>
+</body>
+</html>

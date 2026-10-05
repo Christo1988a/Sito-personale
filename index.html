@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <script>
+    // Inizializzazione tema: default dark
+    const temaSalvato = localStorage.getItem('tema');
+    if (temaSalvato === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Marco Cristofari — Junior Software Developer. Profilo professionale, competenze su C#, .NET e Python, percorso di carriera e progetti." />
+  <title>Marco Cristofari — Junior Software Developer</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="transitions.js" defer></script>
+  <script src="global.js" defer></script>
+</head>
+<body class="page-hidden">
+
+  <!-- HEADER FLOTTANTE GLASS -->
+  <div class="site-header-wrapper">
+    <header class="site-header">
+      <a href="index.html" class="brand-link" aria-label="Torna alla Home">
+        <div class="brand-avatar">MC</div>
+        <div class="brand-info">
+          <span class="brand-name">Marco Cristofari</span>
+          <span class="brand-role">Junior Software Developer</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigazione principale">
+        <a href="index.html" class="nav-link" aria-current="page">Home</a>
+        <a href="progetti.html" class="nav-link">Progetti</a>
+        <a href="contatti.html" class="nav-link">Contatti</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cmd-k-trigger" type="button" aria-label="Apri menu comandi rapidi (Ctrl+K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Cerca</span>
+          <span class="cmd-k-badge">⌘K</span>
+        </button>
+
+        <div class="status-indicator" title="Disponibile per assunzione o collaborazioni">
+          <span class="pulse-dot"></span>
+          <span>Disponibile</span>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema chiaro/scuro">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <main class="site-main container">
+
+    <!-- HERO SECTION BENTO GRID -->
+    <section class="hero-bento">
+      <!-- Colonna Sinistra: Bio, Value Proposition e Azioni -->
+      <div class="card hero-main-card">
+        <div class="hero-content">
+          <div class="hero-status-tag">
+            <span class="pulse-dot"></span>
+            <span>Formazione completata @ Synergie Academy • Focus C# &amp; Python</span>
+          </div>
+
+          <h1 class="hero-name">Marco Cristofari</h1>
+          <div class="hero-role-line">
+            <span class="gradient-accent">Junior Software Developer</span>
+            <span>•</span>
+            <span>C# &amp; .NET Specialist</span>
+          </div>
+
+          <p class="hero-bio">
+            Unisco una consolidata esperienza di <strong>leadership tecnica e problem solving sul campo</strong> (maturata come Caposquadra Preposto) con la passione per l'ingegneria del software. Oggi traduco rigore operativo, logica e capacità di coordinamento in codice solido, efficiente e orientato agli oggetti.
+          </p>
+
+          <div class="hero-actions">
+            <a href="cv.pdf" class="btn btn-primary" download="Marco_Cristofari_CV.pdf">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+              <span>Scarica CV (PDF)</span>
+            </a>
+            <a href="progetti.html" class="btn btn-secondary">
+              <span>Esplora i Progetti</span>
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+            </a>
+            <a href="contatti.html" class="btn btn-secondary" aria-label="Vai ai contatti">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              <span>Contattami</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Barra Metriche e Statistiche Rapide -->
+        <div class="hero-stats-bar">
+          <div class="stat-item">
+            <span class="stat-value gradient-accent">15+</span>
+            <span class="stat-label">Anni di esperienza operativa e gestione team</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">C# &bull; .NET</span>
+            <span class="stat-label">Stack primario di programmazione OOP</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">B2</span>
+            <span class="stat-label">Inglese professionale e tecnico</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value">1° Posto</span>
+            <span class="stat-label">Olimpiadi della Matematica d'Istituto</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Colonna Destra: Foto Profilo e Finestra Terminale C# -->
+      <div class="card hero-side-card">
+        <div class="profile-card-header">
+          <div class="profile-photo-wrapper">
+            <img class="profile-photo" src="foto.jpg" alt="Ritratto di Marco Cristofari">
+          </div>
+          <div class="profile-meta">
+            <span class="profile-meta-title">Marco Cristofari</span>
+            <span class="profile-meta-location">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+              Roma, Italia
+            </span>
+            <span class="profile-meta-sub">Disponibile in sede e da remoto</span>
+          </div>
+        </div>
+
+        <!-- Terminale macOS con Snippet C# realistico ed eseguibile -->
+        <div class="code-terminal" aria-label="Snippet codice C#">
+          <div class="terminal-header">
+            <div class="terminal-dots">
+              <span class="terminal-dot red"></span>
+              <span class="terminal-dot yellow"></span>
+              <span class="terminal-dot green"></span>
+            </div>
+            <div class="terminal-tab">
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+              <span>Developer.cs</span>
+            </div>
+            <div class="terminal-actions">
+              <button type="button" class="btn-terminal-run" id="btnRunCode" title="Esegui programma C# (dotnet run)">
+                <svg viewBox="0 0 24 24"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+                <span>Esegui</span>
+              </button>
+              <button type="button" class="btn-terminal-reset" id="btnResetCode" title="Pulisci console">
+                <span>Reset</span>
+              </button>
+            </div>
+          </div>
+          <div class="terminal-body">
+            <p><span class="syn-comment">// Profilo Professionale</span></p>
+            <p><span class="syn-kw">public class</span> <span class="syn-type">JuniorDeveloper</span></p>
+            <p>{</p>
+            <p>&nbsp;&nbsp;<span class="syn-kw">public string</span> Name =&gt; <span class="syn-str">"Marco Cristofari"</span>;</p>
+            <p>&nbsp;&nbsp;<span class="syn-kw">public string</span> Location =&gt; <span class="syn-str">"Roma, IT"</span>;</p>
+            <p>&nbsp;&nbsp;<span class="syn-kw">public string</span>[] CoreStack =&gt; [ <span class="syn-str">"C#"</span>, <span class="syn-str">".NET"</span>, <span class="syn-str">"Python"</span>, <span class="syn-str">"SQL"</span> ];</p>
+            <p>&nbsp;&nbsp;<span class="syn-kw">public string</span> Superpower =&gt; <span class="syn-str">"Problem Solving &amp; Leadership"</span>;</p>
+            <br>
+            <p>&nbsp;&nbsp;<span class="syn-kw">public void</span> <span class="syn-ident">Execute</span>()</p>
+            <p>&nbsp;&nbsp;{</p>
+            <p>&nbsp;&nbsp;&nbsp;&nbsp;Console.WriteLine(<span class="syn-str">"Ready to build reliable software."</span>);</p>
+            <p>&nbsp;&nbsp;}</p>
+            <p>}</p>
+
+            <!-- Console Output Simulato -->
+            <div class="terminal-console-output" id="terminalOutput" aria-live="polite">
+              <div class="term-line-cmd">&gt; dotnet run --project Developer.csproj</div>
+              <div class="term-line-build" id="termBuildText">Compilazione completata (0 avvisi, 0 errori) in 0.35s</div>
+              <div class="term-line-out">
+                <span class="term-line-meta">[CONSOLE OUTPUT]</span>
+                <strong>"Ready to build reliable software."</strong>
+              </div>
+              <div class="term-line-status">
+                ✓ Disponibile per posizioni Junior Developer a Roma o Full-Remote.
+              </div>
+            </div>
+            <div class="terminal-cli" id="terminalCli" hidden>
+              <div class="terminal-cli-history" id="terminalCliHistory" aria-live="polite"></div>
+              <form class="terminal-cli-form" id="terminalCliForm" autocomplete="off">
+                <label class="sr-only" for="terminalCliInput">Comando terminale</label>
+                <span aria-hidden="true">&gt;</span>
+                <input id="terminalCliInput" type="text" inputmode="text" spellcheck="false"
+                       placeholder="help" aria-label="Comando terminale">
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEZIONE IL MIO PERCORSO (TIMELINE PROFESSIONALE) -->
+    <section class="card section-spacing">
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Background &amp; Carriera</span>
+        </div>
+        <h2 class="section-title">Il mio percorso professionale</h2>
+        <p class="section-desc">Dalla gestione e supervisione di cantieri tecnici alla programmazione software: un percorso basato su metodo, responsabilità e attitudine continua all'apprendimento.</p>
+      </div>
+
+      <div class="timeline-list">
+        <!-- Esperienza 1: Completato -->
+        <article class="timeline-card">
+          <div class="timeline-card-header">
+            <div class="timeline-role-group">
+              <h3 class="timeline-role-title">Corso da Programmatore Informatico</h3>
+              <div class="timeline-company">
+                <span>Synergie Academy</span>
+                <span>•</span>
+                <span>Percorso di specializzazione intensivo</span>
+              </div>
+            </div>
+            <span class="timeline-period-badge">Completato — Settembre 2026</span>
+          </div>
+          <p class="timeline-desc">
+            Formazione full-immersion incentrata sul linguaggio C# e sui paradigmi della programmazione orientata agli oggetti (OOP), architettura del software, basi di Python e sviluppo pratico di progetti autonomi e scalabili.
+          </p>
+          <ul class="timeline-bullets">
+            <li class="timeline-bullet">Sviluppo di applicazioni ad oggetti con C# e framework .NET.</li>
+            <li class="timeline-bullet">Scripting, elaborazione logica e algoritmi in Python.</li>
+            <li class="timeline-bullet">Porting ed evoluzione di progetti da logica console ad applicazioni web interattive.</li>
+          </ul>
+          <div class="timeline-tags">
+            <span class="tag-pill">C#</span>
+            <span class="tag-pill">.NET</span>
+            <span class="tag-pill">Python</span>
+            <span class="tag-pill">OOP Architecture</span>
+            <span class="tag-pill">Git</span>
+          </div>
+        </article>
+
+        <!-- Esperienza 2: Caposquadra Preposto Impiantistica -->
+        <article class="timeline-card">
+          <div class="timeline-card-header">
+            <div class="timeline-role-group">
+              <h3 class="timeline-role-title">Preposto Caposquadra — Impiantistica Elettrica &amp; Fotovoltaici</h3>
+              <div class="timeline-company">
+                <span>MG Impianti Srls / Prevenzione Furti Omnia Impianti S.r.l.</span>
+                <span>•</span>
+                <span>Roma e trasferte</span>
+              </div>
+            </div>
+            <span class="timeline-period-badge">2022 – 2026</span>
+          </div>
+          <p class="timeline-desc">
+            Promosso da operaio specializzato a Caposquadra Preposto: gestione a tutto tondo delle attività di cantiere, supervisione operativa di squadra, interpretazione di planimetrie tecniche complesse e verifica puntuale della conformità normativa.
+          </p>
+          <ul class="timeline-bullets">
+            <li class="timeline-bullet">Coordinamento e guida del personale in cantiere con responsabilità diretta sulla corretta esecuzione dei lavori.</li>
+            <li class="timeline-bullet">Diagnosi, troubleshooting e risoluzione tempestiva di anomalie e criticità impiantistiche.</li>
+            <li class="timeline-bullet">Pianificazione accurata delle tempistiche e rispetto rigoroso degli standard di sicurezza vigenti.</li>
+          </ul>
+          <div class="timeline-tags">
+            <span class="tag-pill">Leadership Tecnica</span>
+            <span class="tag-pill">Problem Solving sul Campo</span>
+            <span class="tag-pill">Coordinamento Team</span>
+            <span class="tag-pill">Normative CEI</span>
+          </div>
+        </article>
+
+        <!-- Esperienza 3: Vendite e Gestione Personale -->
+        <article class="timeline-card">
+          <div class="timeline-card-header">
+            <div class="timeline-role-group">
+              <h3 class="timeline-role-title">Responsabile Personale &amp; Segretario Vendite</h3>
+              <div class="timeline-company">
+                <span>Buildingcase / Gruppo Tecnocasa</span>
+                <span>•</span>
+                <span>Settore Immobiliare</span>
+              </div>
+            </div>
+            <span class="timeline-period-badge">2007 – 2020</span>
+          </div>
+          <p class="timeline-desc">
+            Esperienza pluriennale nella gestione operativa, amministrativa e commerciale: pianificazione delle attività giornaliere del team, conduzione di trattative, contabilità aziendale e interfaccia con studi notarili e legali.
+          </p>
+          <ul class="timeline-bullets">
+            <li class="timeline-bullet">Coordinamento dell'organico aziendale e organizzazione dei flussi di lavoro.</li>
+            <li class="timeline-bullet">Amministrazione contabile (fatturazione attiva/passiva, prima nota, preventivi).</li>
+            <li class="timeline-bullet">Formazione in tecniche avanzate di comunicazione, negoziazione e gestione del cliente.</li>
+          </ul>
+          <div class="timeline-tags">
+            <span class="tag-pill">Gestione Clienti</span>
+            <span class="tag-pill">Organizzazione Flussi</span>
+            <span class="tag-pill">Negoziazione</span>
+            <span class="tag-pill">Amministrazione</span>
+          </div>
+        </article>
+
+        <!-- Formazione: Liceo Scientifico Tecnologico -->
+        <article class="timeline-card">
+          <div class="timeline-card-header">
+            <div class="timeline-role-group">
+              <h3 class="timeline-role-title">Diploma Liceo Scientifico Tecnologico</h3>
+              <div class="timeline-company">
+                <span>I.T.I.S. Giovanni Giorgi — Roma</span>
+                <span>•</span>
+                <span>Votazione 70/100</span>
+              </div>
+            </div>
+            <span class="timeline-period-badge">Formazione Scientifica</span>
+          </div>
+          <p class="timeline-desc">
+            Percorso di studi a forte vocazione analitica con approfondimenti in matematica, informatica e chimica. <strong>Vincitore delle Olimpiadi di Matematica di Istituto nel 2006</strong>, a testimonianza di una spiccata predisposizione al ragionamento logico e quantitativo.
+          </p>
+          <div class="timeline-tags">
+            <span class="tag-pill">Logica Matematica</span>
+            <span class="tag-pill">Fondamenti di Informatica</span>
+            <span class="tag-pill">Problem Solving Analitico</span>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- SEZIONE COMPETENZE & TECH STACK (CATEGORIZED BENTO) -->
+    <section class="card section-spacing">
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+          <span>Skills &amp; Tecnologie</span>
+        </div>
+        <h2 class="section-title">Competenze Tecniche e Metodologie</h2>
+        <p class="section-desc">Uno stack focalizzato su solidità, pulizia del codice e capacità di adattamento continuo alle tecnologie emergenti.</p>
+      </div>
+
+      <div class="skills-bento-grid">
+        <!-- Categoria 1: Backend & Core -->
+        <div class="skill-category-card" data-skill="backend" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Mostra dettagli su Linguaggi e Backend">
+          <div class="skill-category-header">
+            <div class="skill-cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>
+            </div>
+            <div>
+              <h3 class="skill-cat-title">Linguaggi &amp; Backend</h3>
+              <p class="skill-cat-desc">Sviluppo a oggetti, logica applicativa e paradigmi moderni</p>
+            </div>
+          </div>
+          <div class="skill-chips">
+            <span class="skill-chip highlight">C#</span>
+            <span class="skill-chip highlight">.NET</span>
+            <span class="skill-chip highlight">Python</span>
+            <span class="skill-chip">OOP &amp; Design Patterns</span>
+            <span class="skill-chip">C++ (Basi accademiche)</span>
+            <span class="skill-chip">Java (Basi accademiche)</span>
+          </div>
+          <span class="skill-card-hint">Scopri di più →</span>
+        </div>
+
+        <!-- Categoria 2: Frontend & Web -->
+        <div class="skill-category-card" data-skill="frontend" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Mostra dettagli su Web e Frontend">
+          <div class="skill-category-header">
+            <div class="skill-cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>
+            </div>
+            <div>
+              <h3 class="skill-cat-title">Web &amp; Frontend</h3>
+              <p class="skill-cat-desc">Interfacce web reattive, accessibili e orientate all'esperienza utente</p>
+            </div>
+          </div>
+          <div class="skill-chips">
+            <span class="skill-chip highlight">JavaScript (ES6+)</span>
+            <span class="skill-chip highlight">HTML5 Semantico</span>
+            <span class="skill-chip highlight">CSS3 Moderno</span>
+            <span class="skill-chip">Responsive Web Design</span>
+            <span class="skill-chip">CSS Grid &amp; Flexbox</span>
+            <span class="skill-chip">LocalStorage Web API</span>
+          </div>
+          <span class="skill-card-hint">Scopri di più →</span>
+        </div>
+
+        <!-- Categoria 3: Strumenti & Metodologia -->
+        <div class="skill-category-card" data-skill="tools" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Mostra dettagli su Strumenti e Workflow">
+          <div class="skill-category-header">
+            <div class="skill-cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>
+            </div>
+            <div>
+              <h3 class="skill-cat-title">Strumenti &amp; Workflow</h3>
+              <p class="skill-cat-desc">Tool di sviluppo, controllo versione e pratiche di debugging</p>
+            </div>
+          </div>
+          <div class="skill-chips">
+            <span class="skill-chip">Git &amp; GitHub</span>
+            <span class="skill-chip">Visual Studio 2022</span>
+            <span class="skill-chip">VS Code</span>
+            <span class="skill-chip">Debugging &amp; Profiling</span>
+            <span class="skill-chip">Lettura Planimetrie &amp; Schemi</span>
+          </div>
+          <span class="skill-card-hint">Scopri di più →</span>
+        </div>
+
+        <!-- Categoria 4: Soft Skills & Valore Operativo -->
+        <div class="skill-category-card" data-skill="soft" tabindex="0" role="button" aria-haspopup="dialog" aria-label="Mostra dettagli su Soft Skills e Leadership">
+          <div class="skill-category-header">
+            <div class="skill-cat-icon">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+            </div>
+            <div>
+              <h3 class="skill-cat-title">Soft Skills &amp; Leadership</h3>
+              <p class="skill-cat-desc">Competenze manageriali maturate in anni di gestione sul campo</p>
+            </div>
+          </div>
+          <div class="skill-chips">
+            <span class="skill-chip highlight">Problem Solving sotto pressione</span>
+            <span class="skill-chip highlight">Coordinamento Squadre &amp; Teamwork</span>
+            <span class="skill-chip">Comunicazione Efficace &amp; PNL</span>
+            <span class="skill-chip">Gestione Priorità &amp; Scadenze</span>
+            <span class="skill-chip">Autonomia e Autodidattica</span>
+            <span class="skill-chip">Adattabilità &amp; Cambio di Carriera</span>
+            <span class="skill-chip">Attenzione al Dettaglio</span>
+            <span class="skill-chip">Gestione del Cliente</span>
+            <span class="skill-chip">Inglese Livello B2</span>
+            <span class="skill-chip">Pianificazione Giornata Lavorativa</span>
+          </div>
+          <span class="skill-card-hint">Scopri di più →</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEZIONE OBIETTIVI DINAMICI -->
+    <section class="card section-spacing">
+      <div class="section-title-wrap">
+        <div class="section-eyebrow">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          <span>Roadmap Personale</span>
+        </div>
+        <h2 class="section-title">I Miei Prossimi Obiettivi</h2>
+        <p class="section-desc">Una lista dinamica e sempre aggiornata dei prossimi passi nel mio percorso da sviluppatore, salvata direttamente nel browser.</p>
+      </div>
+
+      <div class="goals-input-row">
+        <input type="text" id="goalInput" class="form-control" placeholder="Es. Approfondire ASP.NET Core..." maxlength="120">
+        <button type="button" id="goalAddBtn" class="btn btn-primary">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+          <span>Aggiungi</span>
+        </button>
+      </div>
+
+      <!-- Barra Progresso Completamento Obiettivi -->
+      <div class="goal-progress-wrap">
+        <div class="goal-progress-header">
+          <span>Stato Avanzamento</span>
+          <span id="goalPercentText">0% completato</span>
+        </div>
+        <div class="goal-progress-bar-bg">
+          <div class="goal-progress-bar-fill" id="goalProgressBar"></div>
+        </div>
+      </div>
+
+      <!-- Filtri Stato Obiettivi -->
+      <div class="goal-filters">
+        <button type="button" class="goal-filter-btn is-active" data-filter="all">Tutti (<span id="countAll">0</span>)</button>
+        <button type="button" class="goal-filter-btn" data-filter="pending">Da completare (<span id="countPending">0</span>)</button>
+        <button type="button" class="goal-filter-btn" data-filter="completed">Completati (<span id="countCompleted">0</span>)</button>
+      </div>
+
+      <p id="goalCount" class="goal-count-badge">0 obiettivi in lista</p>
+
+      <ul id="goalList" class="goal-list"></ul>
+
+      <div id="goalEmpty" class="empty-inbox" style="display:none;">
+        <svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+        <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary);">Nessun obiettivo in lista</p>
+        <p style="font-size: 0.88rem; max-width: 420px;">Aggiungi il tuo primo obiettivo per iniziare a tracciare il percorso.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODALE DETTAGLI COMPETENZE -->
+  <div class="modal-overlay" id="skillModal" aria-hidden="true">
+    <div class="modal-box" role="dialog" aria-modal="true" aria-labelledby="skillModalTitle">
+      <div class="modal-header">
+        <div class="modal-header-group">
+          <div class="skill-cat-icon" id="skillModalIcon"></div>
+          <h3 class="modal-title" id="skillModalTitle"></h3>
+        </div>
+        <button type="button" class="modal-close" id="skillModalClose" aria-label="Chiudi dettagli">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+        </button>
+      </div>
+      <p class="modal-desc" id="skillModalDesc"></p>
+      <ul class="modal-bullets" id="skillModalBullets"></ul>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 Marco Cristofari — Tutti i diritti riservati. Roma, Italia.</p>
+      <div class="footer-links">
+        <a href="progetti.html" class="footer-link">Progetti</a>
+        <a href="contatti.html" class="footer-link">Contatti</a>
+        <a href="https://www.linkedin.com/in/marco-cristofari-15001b422/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Gestione cambio tema (Dark / Light) con salvataggio persistente
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('tema', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('tema', 'dark');
+      }
+    });
+
+    // --- MODALE DETTAGLI COMPETENZE ---
+    const skillDetails = {
+      backend: {
+        title: "Linguaggi & Backend",
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2" y="2" width="20" height="8" rx="2" ry="2"/><rect x="2" y="14" width="20" height="8" rx="2" ry="2"/><line x1="6" y1="6" x2="6.01" y2="6"/><line x1="6" y1="18" x2="6.01" y2="18"/></svg>',
+        description: "Il cuore del mio percorso di riconversione è la programmazione orientata agli oggetti in C#, approfondita nel corso completato presso Synergie Academy insieme alle basi di Python. Applico questi linguaggi in progetti pratici autonomi, come il porting da logica console a web app del gioco L'Eredità.",
+        bullets: [
+          "C# e .NET come stack primario per applicazioni orientate agli oggetti",
+          "Python per scripting, automazione ed elaborazione dati",
+          "Basi accademiche in C++ e Java, utili per confrontare paradigmi diversi",
+          "Attenzione a design pattern e struttura del codice, non solo a farlo funzionare"
+        ]
+      },
+      frontend: {
+        title: "Web & Frontend",
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg>',
+        description: "Questo stesso sito è il mio banco di prova per il frontend: HTML semantico, CSS moderno con un design system a variabili e JavaScript vanilla per rendere le pagine interattive, dal form di contatto al gioco L'Eredità.",
+        bullets: [
+          "HTML5 semantico e CSS3 con custom properties per i temi dark/light",
+          "Layout responsive con CSS Grid e Flexbox",
+          "JavaScript ES6+ per interattività, validazione form e gestione dello stato",
+          "Uso della LocalStorage API per persistere dati lato client"
+        ]
+      },
+      tools: {
+        title: "Strumenti & Workflow",
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"/></svg>',
+        description: "Lavoro con gli strumenti standard del mondo .NET e web: ambienti di sviluppo, controllo versione e debugging, uniti all'abitudine alla lettura di documentazione tecnica complessa maturata leggendo planimetrie e schemi impiantistici nel mio precedente lavoro.",
+        bullets: [
+          "Git e GitHub per il versionamento del codice",
+          "Visual Studio 2022 e VS Code come ambienti di sviluppo quotidiani",
+          "Debugging e profiling per individuare e risolvere errori",
+          "Abitudine alla lettura di documentazione tecnica complessa"
+        ]
+      },
+      soft: {
+        title: "Soft Skills & Leadership",
+        icon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>',
+        description: "Anni di lavoro come Caposquadra Preposto mi hanno dato una base solida di coordinamento di team, problem solving sotto pressione e gestione delle scadenze: competenze trasversali che porto anche nel modo in cui organizzo lo studio e i progetti di programmazione.",
+        bullets: [
+          "Coordinamento e guida di squadre in cantiere con responsabilità dirette",
+          "Problem solving pratico sotto pressione e in tempi stretti",
+          "Comunicazione efficace, anche grazie a una formazione in tecniche di vendita e PNL",
+          "Gestione autonoma di progetti software dal concept alla consegna, con pianificazione delle milestone",
+          "Capacità di adattamento dimostrata da tre cambi di settore professionale, sempre con crescita di responsabilità",
+          "Attenzione al dettaglio e alla conformità, maturata nella verifica di normative tecniche CEI e nella lettura di schemi impiantistici",
+          "Gestione del cliente e negoziazione maturata in 13 anni nel settore immobiliare",
+          "Inglese di livello B2, utile per documentazione tecnica internazionale"
+        ]
+      }
+    };
+
+    const skillModal = document.getElementById('skillModal');
+    const skillModalIcon = document.getElementById('skillModalIcon');
+    const skillModalTitle = document.getElementById('skillModalTitle');
+    const skillModalDesc = document.getElementById('skillModalDesc');
+    const skillModalBullets = document.getElementById('skillModalBullets');
+    const skillModalClose = document.getElementById('skillModalClose');
+    let ultimaCardFocalizzata = null;
+
+    function apriSkillModal(chiave, cardEl) {
+      const dati = skillDetails[chiave];
+      if (!dati) return;
+      ultimaCardFocalizzata = cardEl;
+      skillModalIcon.innerHTML = dati.icon;
+      skillModalTitle.textContent = dati.title;
+      skillModalDesc.textContent = dati.description;
+      skillModalBullets.innerHTML = '';
+      dati.bullets.forEach(function (b) {
+        const li = document.createElement('li');
+        li.className = 'modal-bullet';
+        li.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span></span>';
+        li.querySelector('span').textContent = b;
+        skillModalBullets.appendChild(li);
+      });
+      skillModal.classList.add('is-open');
+      document.body.classList.add('modal-open');
+      requestAnimationFrame(function () { skillModal.classList.add('is-visible'); });
+      skillModal.setAttribute('aria-hidden', 'false');
+      skillModalClose.focus();
+    }
+
+    function chiudiSkillModal() {
+      skillModal.classList.remove('is-visible');
+      document.body.classList.remove('modal-open');
+      skillModal.setAttribute('aria-hidden', 'true');
+      setTimeout(function () {
+        skillModal.classList.remove('is-open');
+      }, 250);
+      if (ultimaCardFocalizzata) ultimaCardFocalizzata.focus();
+    }
+
+    document.querySelectorAll('.skill-category-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        apriSkillModal(card.getAttribute('data-skill'), card);
+      });
+      card.addEventListener('keydown', function (e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          apriSkillModal(card.getAttribute('data-skill'), card);
+        }
+      });
+    });
+
+    skillModalClose.addEventListener('click', chiudiSkillModal);
+    skillModal.addEventListener('click', function (e) {
+      if (e.target === skillModal) chiudiSkillModal();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && skillModal.classList.contains('is-open')) chiudiSkillModal();
+    });
+
+    // --- TERMINALE C# ESEGUIBILE ---
+    const btnRunCode = document.getElementById('btnRunCode');
+    const btnResetCode = document.getElementById('btnResetCode');
+    const terminalOutput = document.getElementById('terminalOutput');
+    const termBuildText = document.getElementById('termBuildText');
+    const terminalCli = document.getElementById('terminalCli');
+    const terminalCliForm = document.getElementById('terminalCliForm');
+    const terminalCliInput = document.getElementById('terminalCliInput');
+    const terminalCliHistory = document.getElementById('terminalCliHistory');
+
+    function scriviRigaTerminale(testo, classe = '') {
+      if (!terminalCliHistory) return;
+      const row = document.createElement('div');
+      row.className = `terminal-cli-line ${classe}`.trim();
+      row.textContent = testo;
+      terminalCliHistory.appendChild(row);
+      terminalCliHistory.scrollTop = terminalCliHistory.scrollHeight;
+    }
+
+    function gestisciComandoTerminale(rawCommand) {
+      const comando = rawCommand.trim().toLowerCase();
+      if (!comando) return;
+
+      scriviRigaTerminale(`> ${rawCommand}`, 'is-command');
+
+      const risposte = {
+        help: ['Comandi disponibili: help, skills, contact, clear'],
+        skills: ['C# · .NET · Python · SQL · JavaScript · Git'],
+        contact: ['Per un contatto diretto: apri la sezione Contatti o usa Ctrl/Cmd + K.']
+      };
+
+      if (comando === 'clear') {
+        if (terminalCliHistory) terminalCliHistory.innerHTML = '';
+        return;
+      }
+
+      if (risposte[comando]) {
+        risposte[comando].forEach(r => scriviRigaTerminale(r));
+      } else {
+        scriviRigaTerminale(`Comando non riconosciuto: "${rawCommand}". Digita "help".`, 'is-error');
+      }
+    }
+
+    if (btnRunCode && terminalOutput) {
+      btnRunCode.addEventListener('click', function () {
+        btnRunCode.disabled = true;
+        const originalHtml = btnRunCode.innerHTML;
+        btnRunCode.innerHTML = '<span>Compilazione...</span>';
+
+        const tempo = 320 + Math.floor(Math.random() * 220);
+        if (termBuildText) {
+          termBuildText.textContent = 'Compilazione in corso…';
+        }
+
+        setTimeout(function () {
+          terminalOutput.classList.add('is-active');
+          if (termBuildText) {
+            termBuildText.textContent = `Build completata (0 avvisi, 0 errori) in ${(tempo / 1000).toFixed(2)}s`;
+          }
+          if (btnResetCode) btnResetCode.style.display = 'inline-flex';
+          if (terminalCli) terminalCli.hidden = false;
+          if (terminalCliHistory && !terminalCliHistory.children.length) {
+            scriviRigaTerminale('Console pronta. Digita "help" per i comandi disponibili.');
+          }
+          btnRunCode.disabled = false;
+          btnRunCode.innerHTML = originalHtml;
+        }, tempo);
+      });
+
+      if (btnResetCode) {
+        btnResetCode.addEventListener('click', function () {
+          terminalOutput.classList.remove('is-active');
+          btnResetCode.style.display = 'none';
+          if (terminalCli) terminalCli.hidden = true;
+          if (terminalCliHistory) terminalCliHistory.innerHTML = '';
+          if (termBuildText) termBuildText.textContent = 'Compilazione completata (0 avvisi, 0 errori)';
+        });
+      }
+    }
+
+    if (terminalCliForm && terminalCliInput) {
+      terminalCliForm.addEventListener('submit', function (event) {
+        event.preventDefault();
+        gestisciComandoTerminale(terminalCliInput.value);
+        terminalCliInput.value = '';
+      });
+    }
+
+    // --- LISTA DINAMICA "PROSSIMI OBIETTIVI" CON PROGRESSO & FILTRI ---
+    const OBIETTIVI_KEY = 'obiettiviProgrammazione';
+    const goalInput = document.getElementById('goalInput');
+    const goalList = document.getElementById('goalList');
+    const goalCount = document.getElementById('goalCount');
+    const goalEmpty = document.getElementById('goalEmpty');
+    const goalAddBtn = document.getElementById('goalAddBtn');
+    const goalProgressBar = document.getElementById('goalProgressBar');
+    const goalPercentText = document.getElementById('goalPercentText');
+    const countAll = document.getElementById('countAll');
+    const countPending = document.getElementById('countPending');
+    const countCompleted = document.getElementById('countCompleted');
+    let filtroAttivo = 'all';
+
+    function leggiObiettivi() {
+      return JSON.parse(localStorage.getItem(OBIETTIVI_KEY) || '[]');
+    }
+
+    function salvaObiettivi(lista) {
+      localStorage.setItem(OBIETTIVI_KEY, JSON.stringify(lista));
+    }
+
+    function aggiornaMetricheObiettivi(obiettivi) {
+      const totale = obiettivi.length;
+      const completati = obiettivi.filter(o => o.completato).length;
+      const daFare = totale - completati;
+      const percentuale = totale > 0 ? Math.round((completati / totale) * 100) : 0;
+
+      if (countAll) countAll.textContent = totale;
+      if (countPending) countPending.textContent = daFare;
+      if (countCompleted) countCompleted.textContent = completati;
+
+      if (goalPercentText) {
+        goalPercentText.textContent = `${completati} di ${totale} completati (${percentuale}%)`;
+      }
+      if (goalProgressBar) {
+        goalProgressBar.style.width = percentuale + '%';
+      }
+      goalCount.textContent = totale + (totale === 1 ? ' obiettivo totale' : ' obiettivi totali');
+    }
+
+    function renderObiettivi() {
+      const obiettivi = leggiObiettivi();
+      aggiornaMetricheObiettivi(obiettivi);
+
+      goalList.innerHTML = '';
+      const filtrati = obiettivi.map((o, idx) => ({ ...o, originalIndex: idx })).filter(o => {
+        if (filtroAttivo === 'pending') return !o.completato;
+        if (filtroAttivo === 'completed') return o.completato;
+        return true;
+      });
+
+      goalEmpty.style.display = filtrati.length === 0 ? 'flex' : 'none';
+
+      filtrati.forEach(function (o) {
+        const li = document.createElement('li');
+        li.className = 'goal-item' + (o.completato ? ' completed' : '');
+
+        const check = document.createElement('button');
+        check.type = 'button';
+        check.className = 'goal-check';
+        check.setAttribute('aria-label', o.completato ? 'Segna come da fare' : 'Segna come completato');
+        check.innerHTML = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+        check.addEventListener('click', function () {
+          const attuali = leggiObiettivi();
+          attuali[o.originalIndex].completato = !attuali[o.originalIndex].completato;
+          salvaObiettivi(attuali);
+          renderObiettivi();
+        });
+
+        const testo = document.createElement('span');
+        testo.className = 'goal-text';
+        testo.textContent = o.testo;
+
+        const rimuovi = document.createElement('button');
+        rimuovi.type = 'button';
+        rimuovi.className = 'goal-remove';
+        rimuovi.textContent = 'Rimuovi';
+        rimuovi.addEventListener('click', function () {
+          const attuali = leggiObiettivi();
+          attuali.splice(o.originalIndex, 1);
+          salvaObiettivi(attuali);
+          renderObiettivi();
+        });
+
+        li.appendChild(check);
+        li.appendChild(testo);
+        li.appendChild(rimuovi);
+        goalList.appendChild(li);
+      });
+    }
+
+    // Gestione filtri obiettivi
+    document.querySelectorAll('.goal-filter-btn').forEach(btn => {
+      btn.addEventListener('click', function () {
+        document.querySelectorAll('.goal-filter-btn').forEach(b => b.classList.remove('is-active'));
+        btn.classList.add('is-active');
+        filtroAttivo = btn.getAttribute('data-filter');
+        renderObiettivi();
+      });
+    });
+
+    function aggiungiObiettivo() {
+      const testo = goalInput.value.trim();
+      if (testo === '') return;
+      const obiettivi = leggiObiettivi();
+      obiettivi.push({ testo: testo, completato: false });
+      salvaObiettivi(obiettivi);
+      goalInput.value = '';
+      goalInput.focus();
+      renderObiettivi();
+    }
+
+    goalAddBtn.addEventListener('click', aggiungiObiettivo);
+    goalInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        e.preventDefault();
+        aggiungiObiettivo();
+      }
+    });
+
+    // Inizializzazione obiettivi default prima visita
+    if (leggiObiettivi().length === 0 && !localStorage.getItem('obiettiviInizializzati')) {
+      salvaObiettivi([
+        { testo: 'Pubblicare il portfolio online con un dominio personalizzato', completato: false },
+        { testo: 'Completare il Gestore Operativo & Commesse in C#', completato: true },
+        { testo: 'Approfondire ASP.NET Core per applicazioni web full-stack', completato: false }
+      ]);
+      localStorage.setItem('obiettiviInizializzati', '1');
+    }
+
+    renderObiettivi();
+  </script>
+</body>
+</html>

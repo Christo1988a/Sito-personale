@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <script>
+    const temaSalvato = localStorage.getItem('tema');
+    if (temaSalvato === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="Mettiti in contatto con Marco Cristofari: telefono, email, profilo LinkedIn e form di contatto diretto." />
+  <title>Contatti — Marco Cristofari</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="transitions.js" defer></script>
+  <script src="global.js" defer></script>
+</head>
+<body class="page-hidden">
+
+  <!-- HEADER FLOTTANTE GLASS -->
+  <div class="site-header-wrapper">
+    <header class="site-header">
+      <a href="index.html" class="brand-link" aria-label="Torna alla Home">
+        <div class="brand-avatar">MC</div>
+        <div class="brand-info">
+          <span class="brand-name">Marco Cristofari</span>
+          <span class="brand-role">Junior Software Developer</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigazione principale">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="progetti.html" class="nav-link">Progetti</a>
+        <a href="contatti.html" class="nav-link" aria-current="page">Contatti</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cmd-k-trigger" type="button" aria-label="Apri menu comandi rapidi (Ctrl+K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Cerca</span>
+          <span class="cmd-k-badge">⌘K</span>
+        </button>
+
+        <div class="status-indicator" title="Disponibile per assunzione o collaborazioni">
+          <span class="pulse-dot"></span>
+          <span>Disponibile</span>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema chiaro/scuro">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <main class="site-main container">
+
+    <!-- INTESTAZIONE SEZIONE -->
+    <div class="section-title-wrap" style="margin-bottom: 32px;">
+      <div class="section-eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>Canali di Comunicazione</span>
+      </div>
+      <h1 class="project-title">Mettiti in Contatto</h1>
+      <p class="section-desc">
+        Sono attivamente alla ricerca di nuove opportunità professionali come sviluppatore software C# / .NET / Python. Contattami direttamente con i riferimenti rapidi qui sotto o compila il form.
+      </p>
+    </div>
+
+    <!-- LAYOUT A 2 COLONNE: CARDS INFO RAPIDE + FORM COMPLETO -->
+    <div class="contact-layout">
+
+      <!-- COLONNA SINISTRA: CARD CON COPY-TO-CLIPBOARD -->
+      <div class="contact-cards-group">
+
+        <!-- Telefono con pulsante Copia -->
+        <div class="contact-item-card">
+          <div class="contact-left">
+            <div class="contact-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+            </div>
+            <div class="contact-meta">
+              <span class="contact-meta-label">Telefono Cellulare</span>
+              <a href="tel:+393333139123" class="contact-meta-value">+39 333 313 9123</a>
+            </div>
+          </div>
+          <button type="button" class="btn-copy" data-copy="+393333139123" title="Copia numero negli appunti">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Copia</span>
+          </button>
+        </div>
+
+        <!-- Email protetta: l'indirizzo completo viene costruito solo dopo l'interazione -->
+        <div class="contact-item-card contact-email-protected" data-protected-email="109,97,114,99,111,99,114,105,115,116,111,102,97,114,105,56,56,64,103,109,97,105,108,46,99,111,109">
+          <div class="contact-left">
+            <div class="contact-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2-2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+            </div>
+            <div class="contact-meta">
+              <span class="contact-meta-label">Indirizzo Email</span>
+              <span class="contact-meta-value protected-email-value" aria-live="polite">[ email protetta ]</span>
+            </div>
+          </div>
+          <button type="button" class="btn-copy btn-reveal-email" data-email-action="reveal" aria-expanded="false" title="Mostra indirizzo email">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+            <span>Mostra</span>
+          </button>
+        </div>
+
+        <!-- Profilo LinkedIn -->
+        <div class="contact-item-card">
+          <div class="contact-left">
+            <div class="contact-icon-box linkedin">
+              <svg viewBox="0 0 24 24"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.02-3.03-1.85-3.03-1.86 0-2.14 1.45-2.14 2.94v5.66H9.36V9h3.41v1.56h.05c.48-.9 1.64-1.85 3.38-1.85 3.6 0 4.27 2.37 4.27 5.46v6.28zM5.34 7.43a2.06 2.06 0 1 1 0-4.12 2.06 2.06 0 0 1 0 4.12zM7.12 20.45H3.56V9h3.56v11.45z"/></svg>
+            </div>
+            <div class="contact-meta">
+              <span class="contact-meta-label">Rete Professionale</span>
+              <a href="https://www.linkedin.com/in/marco-cristofari-15001b422/" target="_blank" rel="noopener noreferrer" class="contact-meta-value">
+                Profilo LinkedIn di Marco ↗
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Posizione Geografica -->
+        <div class="contact-item-card">
+          <div class="contact-left">
+            <div class="contact-icon-box">
+              <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <div class="contact-meta">
+              <span class="contact-meta-label">Area Geografica</span>
+              <span class="contact-meta-value">Roma, Italia (In sede, ibrido o full remote)</span>
+            </div>
+          </div>
+        </div>
+
+
+
+      </div>
+
+      <!-- COLONNA DESTRA: FORM PROFESSIONALE COMPLETO -->
+      <div class="card form-card">
+        <div>
+          <h2 style="font-size: 1.35rem; margin-bottom: 4px;">Scrivimi un Messaggio</h2>
+          <p style="color: var(--text-secondary); font-size: 0.92rem;">
+            Compila il modulo sottostante: il messaggio verrà inviato direttamente alla mia casella email.
+          </p>
+        </div>
+
+        <form id="formContatto" novalidate>
+          <div class="form-row-2">
+            <div class="form-group">
+              <label for="inputNome" class="form-label">
+                <span>Il tuo Nome</span>
+                <span style="color: #ef4444;">*</span>
+              </label>
+              <input type="text" id="inputNome" class="form-control" placeholder="Es. Mario Rossi" required>
+            </div>
+
+            <div class="form-group">
+              <label for="inputEmail" class="form-label">
+                <span>La tua Email</span>
+                <span style="color: #ef4444;">*</span>
+              </label>
+              <input type="email" id="inputEmail" class="form-control" placeholder="mario.rossi@azienda.it" required>
+            </div>
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="inputOggetto" class="form-label">
+              <span>Oggetto del Messaggio</span>
+            </label>
+            <input type="text" id="inputOggetto" class="form-control" placeholder="Es. Opportunità di colloquio / Informazioni tecniche">
+          </div>
+
+          <div class="form-group" style="margin-top: 14px;">
+            <label for="inputMessaggio" class="form-label">
+              <span>Messaggio</span>
+              <span style="color: #ef4444;">*</span>
+            </label>
+            <textarea id="inputMessaggio" class="form-control" rows="5" placeholder="Scrivi qui la tua richiesta o proposta..." required></textarea>
+          </div>
+
+          <div style="margin-top: 20px;">
+            <button type="submit" class="btn btn-primary" style="width: 100%;">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+              <span>Invia Messaggio</span>
+            </button>
+          </div>
+
+          <div id="toastSuccesso" class="toast-notice success" role="alert" style="display: none;">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="20 6 9 17 4 12"/></svg>
+            <span>Messaggio inviato con successo! Grazie per avermi contattato, ti risponderò il prima possibile.</span>
+          </div>
+        </form>
+      </div>
+
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 Marco Cristofari — Tutti i diritti riservati. Roma, Italia.</p>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="progetti.html" class="footer-link">Progetti</a>
+        <a href="https://www.linkedin.com/in/marco-cristofari-15001b422/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // --- GESTIONE COPIA RAPIDA NEGLI APPUNTI ---
+    document.querySelectorAll('.btn-copy').forEach(btn => {
+      btn.addEventListener('click', async () => {
+        const textToCopy = btn.getAttribute('data-copy');
+        const span = btn.querySelector('span');
+        const originalText = span.textContent;
+
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(textToCopy);
+          } else {
+            // Fallback per contesti senza Clipboard API
+            const ta = document.createElement('textarea');
+            ta.value = textToCopy;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+
+          btn.classList.add('copied');
+          span.textContent = 'Copiato!';
+          setTimeout(() => {
+            btn.classList.remove('copied');
+            span.textContent = originalText;
+          }, 2000);
+        } catch (err) {
+          console.error('Errore durante la copia:', err);
+        }
+      });
+    });
+
+    // --- INVIO FORM MESSAGGIO COMPLETO VIA WEB3FORMS ---
+    document.getElementById('formContatto').addEventListener('submit', async function (e) {
+      e.preventDefault();
+
+      const submitBtn = this.querySelector('button[type="submit"]');
+      const nome = document.getElementById('inputNome').value.trim();
+      const email = document.getElementById('inputEmail').value.trim();
+      const oggetto = document.getElementById('inputOggetto').value.trim() || 'Messaggio dal Portfolio';
+      const testo = document.getElementById('inputMessaggio').value.trim();
+
+      if (!nome || !email || !testo) {
+        alert('Per favore compila tutti i campi obbligatori (Nome, Email e Messaggio).');
+        return;
+      }
+
+    
+      const accessKey = "a8b04d4b-95c7-4b9a-aaf4-a0a8d72a838c";
+
+      const originalBtnHtml = submitBtn.innerHTML;
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<span>Invio in corso...</span>';
+
+      try {
+        const response = await fetch('https://api.web3forms.com/submit', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept': 'application/json'
+          },
+          body: JSON.stringify({
+            access_key: accessKey,
+            name: nome,
+            email: email,
+            subject: oggetto,
+            message: testo
+          })
+        });
+
+        const result = await response.json();
+
+        if (result.success || response.ok) {
+          // Reset campi
+          document.getElementById('inputNome').value = '';
+          document.getElementById('inputEmail').value = '';
+          document.getElementById('inputOggetto').value = '';
+          document.getElementById('inputMessaggio').value = '';
+
+          // Mostra notifica toast dopo invio con successo
+          const toast = document.getElementById('toastSuccesso');
+          toast.style.display = 'flex';
+          toast.classList.add('show');
+
+          setTimeout(function () {
+            toast.style.display = 'none';
+            toast.classList.remove('show');
+          }, 6000);
+        } else {
+          alert('Errore durante l\'invio del messaggio: ' + (result.message || 'Riprova più tardi.'));
+        }
+      } catch (err) {
+        console.error('Errore invio Web3Forms:', err);
+        alert('Si è verificato un errore di rete. Verifica la connessione e riprova.');
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = originalBtnHtml;
+      }
+    });
+
+    // --- TEMA SCURO / CHIARO ---
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('tema', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('tema', 'dark');
+      }
+    });
+  </script>
+
+<script>
+(function () {
+  'use strict';
+
+  function decodeProtectedEmail() {
+    const holder = document.querySelector('[data-protected-email]');
+    if (!holder) return '';
+    return holder.dataset.protectedEmail.split(',').map(Number)
+      .map(code => String.fromCharCode(code)).join('');
+  }
+
+  const card = document.querySelector('.contact-email-protected');
+  const button = card?.querySelector('.btn-reveal-email');
+  const value = card?.querySelector('.protected-email-value');
+
+  if (!card || !button || !value) return;
+
+  button.addEventListener('click', function () {
+    const email = decodeProtectedEmail();
+    if (!email) return;
+
+    const isRevealed = button.getAttribute('aria-expanded') === 'true';
+
+    if (!isRevealed) {
+      const link = document.createElement('a');
+      link.href = 'mailto:' + email;
+      link.textContent = email;
+      link.className = 'protected-email-link';
+      value.replaceChildren(link);
+
+      button.setAttribute('aria-expanded', 'true');
+      button.dataset.emailAction = 'copy';
+      button.setAttribute('aria-label', 'Copia indirizzo email');
+      button.classList.add('is-copy-action');
+      button.title = 'Copia indirizzo email';
+      button.querySelector('span').textContent = 'Copia';
+      return;
+    }
+
+    const copied = () => {
+      button.querySelector('span').textContent = 'Copiata';
+      window.setTimeout(() => button.querySelector('span').textContent = 'Copia', 1800);
+    };
+
+    if (navigator.clipboard?.writeText) {
+      navigator.clipboard.writeText(email).then(copied).catch(() => window.prompt('Copia questo indirizzo email:', email));
+    } else {
+      window.prompt('Copia questo indirizzo email:', email);
+    }
+  });
+})();
+</script>
+
+</body>
+</html>

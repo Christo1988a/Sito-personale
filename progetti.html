@@ -1,0 +1,725 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8" />
+  <script>
+    const temaSalvato = localStorage.getItem('tema');
+    if (temaSalvato === 'light') {
+      document.documentElement.setAttribute('data-theme', 'light');
+    } else {
+      document.documentElement.setAttribute('data-theme', 'dark');
+    }
+  </script>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="I progetti di sviluppo software di Marco Cristofari: applicazioni C#, web game interattivi e roadmap di progetti futuri." />
+  <title>Progetti — Marco Cristofari</title>
+  <link rel="icon" type="image/png" href="favicon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600;700&family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script src="transitions.js" defer></script>
+  <script src="global.js" defer></script>
+</head>
+<body class="page-hidden">
+
+  <!-- HEADER FLOTTANTE GLASS -->
+  <div class="site-header-wrapper">
+    <header class="site-header">
+      <a href="index.html" class="brand-link" aria-label="Torna alla Home">
+        <div class="brand-avatar">MC</div>
+        <div class="brand-info">
+          <span class="brand-name">Marco Cristofari</span>
+          <span class="brand-role">Junior Software Developer</span>
+        </div>
+      </a>
+
+      <nav class="nav-links" aria-label="Navigazione principale">
+        <a href="index.html" class="nav-link">Home</a>
+        <a href="progetti.html" class="nav-link" aria-current="page">Progetti</a>
+        <a href="contatti.html" class="nav-link">Contatti</a>
+      </nav>
+
+      <div class="header-actions">
+        <button class="cmd-k-trigger" type="button" aria-label="Apri menu comandi rapidi (Ctrl+K)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          <span>Cerca</span>
+          <span class="cmd-k-badge">⌘K</span>
+        </button>
+
+        <div class="status-indicator" title="Disponibile per assunzione o collaborazioni">
+          <span class="pulse-dot"></span>
+          <span>Disponibile</span>
+        </div>
+
+        <button id="themeToggle" class="theme-toggle" type="button" aria-label="Cambia tema chiaro/scuro">
+          <svg class="icon-moon" viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <svg class="icon-sun" viewBox="0 0 24 24" aria-hidden="true">
+            <circle cx="12" cy="12" r="5" stroke="currentColor" stroke-width="2" fill="none"/>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </button>
+      </div>
+    </header>
+  </div>
+
+  <main class="site-main container">
+
+    <!-- INTESTAZIONE PAGINA -->
+    <div class="section-title-wrap" style="margin-bottom: 32px;">
+      <div class="section-eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+        <span>Portfolio Applicazioni</span>
+      </div>
+      <h1 class="project-title">I Miei Progetti</h1>
+      <p class="section-desc">
+        Una selezione di lavori pratici che testimoniano il mio percorso di sviluppo: dalla prototipazione di algoritmi e logica in C# alla realizzazione di web app interattive e responsive.
+    <!-- TOOLBAR FILTRI & RICERCA DINAMICA -->
+    <div class="project-toolbar">
+      <div class="project-toolbar-top">
+        <div class="project-filter-pills" role="toolbar" aria-label="Filtra progetti per stack">
+          <button type="button" class="filter-pill is-active" data-filter="all">Tutti (<span id="pillCountAll">7</span>)</button>
+          <button type="button" class="filter-pill" data-filter="csharp">C# &amp; .NET (<span id="pillCountCsharp">4</span>)</button>
+          <button type="button" class="filter-pill" data-filter="python">Python (<span id="pillCountPython">2</span>)</button>
+          <button type="button" class="filter-pill" data-filter="web">Web &amp; Frontend (<span id="pillCountWeb">4</span>)</button>
+        </div>
+
+        <div class="project-search-box">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+          </svg>
+          <input type="text" id="projectSearchInput" class="project-search-input" placeholder="Cerca progetto o tecnologia..." aria-label="Cerca progetti">
+        </div>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between;">
+        <span id="projectActiveCount" class="project-count-badge">7 progetti visualizzati</span>
+      </div>
+    </div>
+
+    <!-- MESSAGGIO STATO NESSUN RISULTATO -->
+    <div id="projectNoResults" class="project-no-results">
+      <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+        <circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/>
+      </svg>
+      <p style="font-size: 1rem; font-weight: 600; color: var(--text-primary);">Nessun progetto corrispondente</p>
+      <p style="font-size: 0.88rem;">Prova a modificare i criteri di ricerca o a reimpostare il filtro su "Tutti".</p>
+    </div>
+
+    <!-- ============================================================
+         SEZIONE 1: PROGETTI COMPLETATI — SHOWCASE CARDS
+         ============================================================ -->
+    <div class="section-title-wrap" style="margin-bottom: 28px;">
+      <div class="section-eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg>
+        <span>Progetti Completati</span>
+      </div>
+      <h2 class="section-title">Showcase</h2>
+      <p class="section-desc">I progetti conclusi che meglio rappresentano il mio percorso di crescita come sviluppatore software.</p>
+    </div>
+
+    <!-- PROGETTO 1: PIZZERIA DA GINO -->
+    <article class="featured-project-card project-item" data-category="web csharp" data-tags="c# .net asp.net core razor pages entity framework sqlite jwt auth rest api pizzeria ordini consegna gestionale web full-stack bootstrap" data-title="Pizzeria da Gino — Gestionale Ordini">
+      <span class="featured-badge">★ Progetto in Evidenza • Web App Full-Stack</span>
+      <h2 class="project-title">Pizzeria da Gino — Gestionale Ordini</h2>
+      <p class="project-subtitle">Applicazione web full-stack per la gestione completa di una pizzeria: ordini online, coda cucina in tempo reale e pannello di amministrazione, costruita con ASP.NET Core 8 e SQLite.</p>
+
+      <div class="project-grid-content">
+        <!-- Colonna Dettagli Tecnici -->
+        <div class="project-details">
+          <p>
+            Progetto sviluppato per dimostrare competenze full-stack .NET in un contesto reale: gestione catalogo, carrello con note per prodotto, autenticazione JWT con tre ruoli distinti e calcolo costo di consegna basato sulla distanza. In assenza dell'API esterna, il sistema propone un fallback con selezione manuale della zona.
+          </p>
+
+          <ul class="project-feature-list">
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Tre ruoli con autenticazione JWT:</strong> Cliente (ordini e storico), Cucina (coda ordini real-time), Amministrazione (catalogo, utenti, report e fasce consegna).</span>
+            </li>
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Calcolo consegna intelligente:</strong> Integrazione Google Routes API per distanza reale con fallback a selezione manuale della zona quando l'API non è disponibile.</span>
+            </li>
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Integrità dati garantita:</strong> Snapshot storico degli ordini (prezzi e nomi salvati al momento dell'acquisto), vincoli di integrità e ricalcolo server-side di prezzi e sconti.</span>
+            </li>
+          </ul>
+
+          <div class="timeline-tags" style="margin: 8px 0 16px;">
+            <span class="tag-pill">ASP.NET Core 8</span>
+            <span class="tag-pill">Razor Pages</span>
+            <span class="tag-pill">Entity Framework Core</span>
+            <span class="tag-pill">SQLite</span>
+            <span class="tag-pill">JWT Auth</span>
+            <span class="tag-pill">REST API</span>
+          </div>
+
+          <!-- Visualizzatore Snippet Calcolo Consegna -->
+          <button type="button" class="project-code-toggle" data-target="code-pizzeria-service">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>{ } Mostra Logica di Business (Calcolo Totale)</span>
+          </button>
+
+          <div class="project-code-drawer" id="code-pizzeria-service">
+            <div class="project-code-header">
+              <span>CalcoloTotaleService.cs (Business Logic)</span>
+              <button type="button" class="btn-copy-code" data-copy-target="pizzeria-code-text">Copia</button>
+            </div>
+            <pre class="project-code-body" id="pizzeria-code-text"><code>public async Task&lt;RisultatoCalcoloTotale&gt; CalcolaTotaleAsync(
+    IReadOnlyCollection&lt;ElementoCarrello&gt; carrello,
+    TipoConsegna tipoConsegna, string? indirizzoConsegna)
+{
+    // Subtotale calcolato SOLO sui prodotti (no consegna, no sconto)
+    var subtotale = Math.Round(
+        carrello.Sum(r =&gt; r.PrezzoUnitario * r.Quantita), 2);
+
+    var impostazioni = await _db.ImpostazioniNegozio.FindAsync(1);
+    var scontoApplicabile = impostazioni.ScontoPercentuale &gt; 0m
+        &amp;&amp; subtotale &gt;= impostazioni.ScontoSogliaImporto;
+
+    decimal costoConsegna = 0m;
+    if (tipoConsegna == TipoConsegna.Consegna)
+    {
+        // Google Routes API → distanza reale → fascia di prezzo
+        // Fallback: selezione manuale della zona se API non disponibile
+        var distanza = await _distanceService.CalcolaDistanzaAsync(indirizzoConsegna!);
+        var fascia = await _db.FasceConsegna
+            .Where(f =&gt; f.Attiva &amp;&amp; distanza.DistanzaKm &gt;= f.DistanzaMinKm
+                                 &amp;&amp; distanza.DistanzaKm &lt; f.DistanzaMaxKm)
+            .FirstOrDefaultAsync();
+        costoConsegna = fascia.CostoConsegna;
+    }
+    return new(subtotale, scontoImporto, costoConsegna, totaleFinale);
+}</code></pre>
+          </div>
+
+          <div class="hero-actions" style="margin: 16px 0 0;">
+            <a href="https://github.com/Christo1988a/PizzeriaDaGino" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              <span>Vedi su GitHub</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonna Frame Mockup Pizzeria -->
+        <div class="pizzeria-mockup-frame">
+          <div class="pizzeria-mockup-seal">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="46" fill="none" stroke="#F5A623" stroke-width="2.5"/>
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#F5A623" stroke-width="1.2" opacity="0.6"/>
+              <text x="50" y="62" font-family="'Cormorant Garamond', serif" font-size="36" font-weight="700" fill="#F5A623" text-anchor="middle">🍕</text>
+              <path d="M28 68 Q50 78 72 68" fill="none" stroke="#F5A623" stroke-width="1.5" opacity="0.7"/>
+            </svg>
+          </div>
+          <h3 class="pizzeria-mockup-title">Pizzeria da Gino</h3>
+          <p class="pizzeria-mockup-tagline">Ordini · Cucina · Amministrazione</p>
+
+          <div class="pizzeria-mockup-roles">
+            <div class="pizzeria-mockup-role-pill">
+              <span>Ordini Cliente</span>
+              <span class="role-icon">🛒</span>
+            </div>
+            <div class="pizzeria-mockup-role-pill">
+              <span>Coda Cucina</span>
+              <span class="role-icon">👨‍🍳</span>
+            </div>
+            <div class="pizzeria-mockup-role-pill">
+              <span>Pannello Admin</span>
+              <span class="role-icon">⚙️</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROGETTO 2: L'EREDITÀ (invariato) -->
+    <article class="featured-project-card project-item" data-category="web csharp" data-tags="c# .net javascript vanilla css localstorage game quiz eredità responsive web" data-title="L'Eredità Interactive TV Game Show">
+      <span class="featured-badge">★ Progetto in Evidenza • Web Application</span>
+      <h2 class="project-title">L'Eredità — Interactive TV Game Show</h2>
+      <p class="project-subtitle">Dalla logica di controllo console in C# a una web app completa in JavaScript Vanilla, CSS Grid e LocalStorage.</p>
+
+      <div class="project-grid-content">
+        <!-- Colonna Dettagli Tecnici -->
+        <div class="project-details">
+          <p>
+            Questo progetto è nato come esercitazione in linguaggio C# per sperimentare flussi decisionali, strutture dati e gestione dello stato di un quiz televisivo. Successivamente ho realizzato il porting completo su ambiente web, creando un'esperienza utente immersiva ispirata allo stile grafico elegante e formale della trasmissione.
+          </p>
+
+          <ul class="project-feature-list">
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Tre manche di gioco fedeli:</strong> Quiz Classico con estrazione Fisher-Yates da un pool di 50 domande; Ruota della Fortuna con normalizzazione lettere accentate; Ghigliottina finale con 5 parole indizio.</span>
+            </li>
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Persistenza e Classifica Globale:</strong> Sistema di salvataggio dello storico delle run su LocalStorage con tracciamento punteggi, confronti con partite precedenti e top 5.</span>
+            </li>
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>UI/UX curata nei dettagli:</strong> Palette verde foresta e oro, animazione CSS del sigillo luminoso, interfaccia adattiva e supporto completo per dispositivi mobili.</span>
+            </li>
+          </ul>
+
+          <div class="timeline-tags" style="margin: 8px 0 16px;">
+            <span class="tag-pill">JavaScript ES6+</span>
+            <span class="tag-pill">C# Logic Porting</span>
+            <span class="tag-pill">LocalStorage API</span>
+            <span class="tag-pill">CSS Keyframe Animations</span>
+            <span class="tag-pill">Responsive Layout</span>
+          </div>
+
+          <div class="hero-actions" style="margin-bottom: 0;">
+            <a href="gioco.html" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polygon points="5 3 19 12 5 21 5 3"/></svg>
+              <span>Gioca alla Demo Live</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonna Frame Mockup Gioco -->
+        <div class="game-mockup-frame">
+          <div class="game-mockup-seal">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="46" fill="none" stroke="#C9A227" stroke-width="2.5"/>
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#C9A227" stroke-width="1.2" opacity="0.6"/>
+              <path d="M50 20 L54 36 L50 32 L46 36 Z" fill="#E8C766"/>
+              <text x="50" y="60" font-family="'Cormorant Garamond', serif" font-size="34" font-weight="700" fill="#E8C766" text-anchor="middle">E</text>
+              <path d="M28 68 Q50 78 72 68" fill="none" stroke="#C9A227" stroke-width="1.5" opacity="0.7"/>
+            </svg>
+          </div>
+          <h3 class="game-mockup-title">L'Eredità</h3>
+          <p class="game-mockup-tagline">Tre prove. Un solo punteggio.</p>
+
+          <div class="game-mockup-modes">
+            <div class="game-mockup-mode-pill">
+              <span>Quiz Classico</span>
+              <span class="num">I</span>
+            </div>
+            <div class="game-mockup-mode-pill">
+              <span>Ruota della Fortuna</span>
+              <span class="num">II</span>
+            </div>
+            <div class="game-mockup-mode-pill">
+              <span>Ghigliottina</span>
+              <span class="num">III</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- PROGETTO 3: ELECWORK MANAGER (promosso a showcase) -->
+    <article class="featured-project-card project-item" data-category="csharp" data-tags="c# .net8 winforms clean architecture cantiere commesse squadra intervento certificazione dpi materiale dashboard sqlite" data-title="ElecWork Manager">
+      <span class="featured-badge">★ Progetto in Evidenza • Applicazione Desktop</span>
+      <h2 class="project-title">ElecWork Manager — Gestionale Cantieri Elettrici</h2>
+      <p class="project-subtitle">Applicazione desktop per la gestione operativa di commesse elettriche, costruita a partire dalla mia esperienza diretta come caposquadra.</p>
+
+      <div class="project-grid-content">
+        <!-- Colonna Dettagli Tecnici -->
+        <div class="project-details">
+          <p>
+            Un gestionale completo nato dall'esigenza reale di organizzare cantieri, squadre, interventi e scadenze normative. Dashboard con KPI operativi in tempo reale e architettura a livelli per separazione delle responsabilità.
+          </p>
+
+          <ul class="project-feature-list">
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Gestione completa:</strong> Cantieri, squadre/operatori, interventi (con rilevamento automatico dei ritardi), certificazioni, DPI, mezzi e magazzino materiali.</span>
+            </li>
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Dashboard con KPI operativi:</strong> Cantieri attivi, squadre disponibili, interventi del giorno, scadenze critiche, materiali sotto scorta — tutto in tempo reale.</span>
+            </li>
+            <li class="project-feature-item">
+              <svg viewBox="0 0 24 24"><polyline points="20 6 9 17 4 12"/></svg>
+              <span><strong>Architettura a livelli:</strong> Domain / Application / Infrastructure / WinForms con persistenza su SQLite e logiche di dominio testate indipendentemente.</span>
+            </li>
+          </ul>
+
+          <div class="timeline-tags" style="margin: 8px 0 16px;">
+            <span class="tag-pill">C# .NET 8</span>
+            <span class="tag-pill">WinForms</span>
+            <span class="tag-pill">Layered Architecture</span>
+            <span class="tag-pill">SQLite</span>
+          </div>
+
+          <!-- Visualizzatore Snippet Domain -->
+          <button type="button" class="project-code-toggle" data-target="code-domain-gestion">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>{ } Mostra Logica di Dominio</span>
+          </button>
+
+          <div class="project-code-drawer" id="code-domain-gestion">
+            <div class="project-code-header">
+              <span>Entities.cs (Domain — regola di scadenza)</span>
+              <button type="button" class="btn-copy-code" data-copy-target="domain-code-text">Copia</button>
+            </div>
+            <pre class="project-code-body" id="domain-code-text"><code>// Regola di dominio condivisa tra Certificazione e Dpi
+public StatoScadenza GetStato(int giorniAnticipo = 30)
+{
+    if (DataScadenza.Date &lt; DateTime.Today) return StatoScadenza.Scaduta;
+    if (DataScadenza.Date &lt;= DateTime.Today.AddDays(giorniAnticipo)) return StatoScadenza.InScadenza;
+    return StatoScadenza.Regolare;
+}
+
+public int GiorniAllaScadenza =&gt; (DataScadenza.Date - DateTime.Today).Days;</code></pre>
+          </div>
+
+          <!-- Visualizzatore Snippet Application -->
+          <button type="button" class="project-code-toggle" data-target="code-application-gestion">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg>
+            <span>{ } Mostra Logica Applicativa (KPI Dashboard)</span>
+          </button>
+
+          <div class="project-code-drawer" id="code-application-gestion">
+            <div class="project-code-header">
+              <span>Services.cs (Application — aggregazione KPI)</span>
+              <button type="button" class="btn-copy-code" data-copy-target="application-code-text">Copia</button>
+            </div>
+            <pre class="project-code-body" id="application-code-text"><code>public DashboardKpi CreaKpi(IEnumerable&lt;Cantiere&gt; cantieri, IEnumerable&lt;Squadra&gt; squadre,
+    IEnumerable&lt;Intervento&gt; interventi, IEnumerable&lt;Certificazione&gt; certificazioni,
+    IEnumerable&lt;Dpi&gt;? dpi = null, IEnumerable&lt;Materiale&gt;? materiali = null)
+{
+    var c = cantieri.ToList();
+    var s = squadre.ToList();
+    var i = interventi.ToList();
+    var scadenzeDpi = dpi?.Count(x =&gt; x.GetStato() != StatoScadenza.Regolare) ?? 0;
+    var sottoScorta = materiali?.Count(x =&gt; x.SottoScorta) ?? 0;
+
+    return new(
+        c.Count(x =&gt; x.Stato == StatoCantiere.InLavorazione),
+        s.Count,
+        s.Count(x =&gt; !c.Any(y =&gt; y.SquadraId == x.Id &amp;&amp; y.Stato == StatoCantiere.InLavorazione)),
+        i.Count(x =&gt; x.DataProgrammata.Date == DateTime.Today),
+        i.Count(x =&gt; x.IsInRitardo),
+        certificazioni.Count(x =&gt; x.GetStato() != StatoScadenza.Regolare) + scadenzeDpi,
+        sottoScorta);
+}</code></pre>
+          </div>
+
+          <div class="hero-actions" style="margin: 16px 0 0;">
+            <a href="gestionale.html" class="btn btn-primary" target="_blank" rel="noopener noreferrer">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><line x1="3" y1="9" x2="21" y2="9"/><line x1="9" y1="21" x2="9" y2="9"/></svg>
+              <span>Prova la Demo Interattiva</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+            <a href="https://github.com/Christo1988a/ElecWorkManager_v1" class="btn btn-primary" target="_blank" rel="noopener noreferrer" style="background: transparent; border: 1px solid var(--border-hover);">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+              <span>Vedi su GitHub</span>
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="7" y1="17" x2="17" y2="7"/><polyline points="7 7 17 7 17 17"/></svg>
+            </a>
+          </div>
+        </div>
+
+        <!-- Colonna Frame Mockup ElecWork -->
+        <div class="elecwork-mockup-frame">
+          <div class="elecwork-mockup-seal">
+            <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+              <circle cx="50" cy="50" r="46" fill="none" stroke="#38BDF8" stroke-width="2.5"/>
+              <circle cx="50" cy="50" r="38" fill="none" stroke="#38BDF8" stroke-width="1.2" opacity="0.6"/>
+              <text x="50" y="62" font-family="'Cormorant Garamond', serif" font-size="34" font-weight="700" fill="#38BDF8" text-anchor="middle">⚡</text>
+              <path d="M28 68 Q50 78 72 68" fill="none" stroke="#38BDF8" stroke-width="1.5" opacity="0.7"/>
+            </svg>
+          </div>
+          <h3 class="elecwork-mockup-title">ElecWork Manager</h3>
+          <p class="elecwork-mockup-tagline">Cantieri · Squadre · KPI</p>
+
+          <div class="elecwork-mockup-modules">
+            <div class="elecwork-mockup-module-pill">
+              <span>Dashboard KPI</span>
+              <span class="module-icon">📊</span>
+            </div>
+            <div class="elecwork-mockup-module-pill">
+              <span>Gestione Cantieri</span>
+              <span class="module-icon">🏗️</span>
+            </div>
+            <div class="elecwork-mockup-module-pill">
+              <span>Scadenze & DPI</span>
+              <span class="module-icon">🔒</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </article>
+
+    <!-- ============================================================
+         SEZIONE 2: ROADMAP & SVILUPPI FUTURI — CARD COMPATTE
+         ============================================================ -->
+    <div class="section-title-wrap" style="margin-top: 48px;">
+      <div class="section-eyebrow">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 14 14"/></svg>
+        <span>Roadmap &amp; In Lavorazione</span>
+      </div>
+      <h2 class="section-title">Sviluppi Futuri</h2>
+      <p class="section-desc">Applicazioni ed esercitazioni pratiche in corso di sviluppo o pianificate per il prossimo futuro.</p>
+    </div>
+
+    <div class="roadmap-grid">
+      <!-- Automazione Dati (Python) -->
+      <article class="roadmap-card project-item" data-category="python" data-tags="python pandas excel csv report dati automazione pipeline scripting" data-title="Automazione Dati & Scripting" tabindex="0" role="button" aria-expanded="false">
+        <div>
+          <span class="roadmap-badge in-progress">In Lavorazione • Python</span>
+          <h3 style="font-size: 1.15rem; margin-top: 10px; margin-bottom: 6px;">Automazione Dati &amp; Scripting</h3>
+          <p class="roadmap-desc">
+            Suite di script Python dedicati all'elaborazione di fogli di calcolo, pulizia automatica di archivi dati e generazione di report riassuntivi per ridurre i tempi operativi di analisi.
+          </p>
+          <div class="roadmap-extra">
+            <ul class="modal-bullets">
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Script con Pandas per pulizia e normalizzazione di fogli Excel con dati eterogenei.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Generazione automatica di report riepilogativi in formato CSV/PDF.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Obiettivo: ridurre i tempi di elaborazione manuale di dati ripetitivi.</span></li>
+            </ul>
+          </div>
+          <span class="roadmap-toggle-hint">
+            <span class="roadmap-toggle-label">Leggi tutto</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="timeline-tags">
+          <span class="tag-pill">Python 3</span>
+          <span class="tag-pill">Pandas</span>
+          <span class="tag-pill">File I/O</span>
+          <span class="tag-pill">Automation</span>
+        </div>
+      </article>
+
+      <!-- Personal Portfolio Website -->
+      <article class="roadmap-card project-item" data-category="web" data-tags="web html5 css3 vanilla js portfolio responsive modern ui" data-title="Personal Portfolio Website" tabindex="0" role="button" aria-expanded="false">
+        <div>
+          <span class="roadmap-badge completed">Completato • Portfolio Web</span>
+          <h3 style="font-size: 1.15rem; margin-top: 10px; margin-bottom: 6px;">Personal Portfolio Website</h3>
+          <p class="roadmap-desc">
+            Questo sito web, interamente sviluppato con approccio moderno: design system con token CSS, navigazione glassmorphism, supporto dark/light mode con persistenza e form di contatto con invio email diretto.
+          </p>
+          <div class="roadmap-extra">
+            <ul class="modal-bullets">
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Palette colori e tipografia scelte per trasmettere professionalità senza risultare anonime.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Sistema di temi dark/light con persistenza via LocalStorage e transizioni animate tra le pagine.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Architettura pensata per essere facilmente estesa con nuovi progetti futuri.</span></li>
+            </ul>
+          </div>
+          <span class="roadmap-toggle-hint">
+            <span class="roadmap-toggle-label">Leggi tutto</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="timeline-tags">
+          <span class="tag-pill">HTML5 Semantico</span>
+          <span class="tag-pill">CSS3 Moderno</span>
+          <span class="tag-pill">Vanilla JS</span>
+          <span class="tag-pill">UI/UX Design</span>
+        </div>
+      </article>
+
+      <!-- NUOVO: Bot Telegram Notifiche -->
+      <article class="roadmap-card project-item" data-category="python" data-tags="python telegram bot api notifiche automazione alert webhook" data-title="Bot Telegram Notifiche" tabindex="0" role="button" aria-expanded="false">
+        <div>
+          <span class="roadmap-badge">Pianificato • Python</span>
+          <h3 style="font-size: 1.15rem; margin-top: 10px; margin-bottom: 6px;">Bot Telegram — Notifiche Automatiche</h3>
+          <p class="roadmap-desc">
+            Bot Telegram per l'invio automatico di alert e notifiche: scadenze certificazioni, nuovi ordini, promemoria interventi. Integrazione con i gestionali esistenti via webhook.
+          </p>
+          <div class="roadmap-extra">
+            <ul class="modal-bullets">
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Invio automatico di alert per scadenze critiche (certificazioni, DPI, interventi in ritardo).</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Ricezione notifiche nuovi ordini dalla pizzeria in tempo reale.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Comandi interattivi per interrogare lo stato dei cantieri direttamente da Telegram.</span></li>
+            </ul>
+          </div>
+          <span class="roadmap-toggle-hint">
+            <span class="roadmap-toggle-label">Leggi tutto</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="timeline-tags">
+          <span class="tag-pill">Python</span>
+          <span class="tag-pill">Telegram API</span>
+          <span class="tag-pill">Webhook</span>
+          <span class="tag-pill">Automazione</span>
+        </div>
+      </article>
+
+      <!-- NUOVO: Dashboard Analytics Interattiva -->
+      <article class="roadmap-card project-item" data-category="web csharp" data-tags="blazor c# .net dashboard grafici analytics chart.js dati visualizzazione web" data-title="Dashboard Analytics Interattiva" tabindex="0" role="button" aria-expanded="false">
+        <div>
+          <span class="roadmap-badge">Pianificato • Blazor / Web</span>
+          <h3 style="font-size: 1.15rem; margin-top: 10px; margin-bottom: 6px;">Dashboard Analytics Interattiva</h3>
+          <p class="roadmap-desc">
+            Web app con grafici interattivi e visualizzazione dati in tempo reale: una dashboard unificata per aggregare le metriche dei gestionali esistenti, con filtri temporali e export report.
+          </p>
+          <div class="roadmap-extra">
+            <ul class="modal-bullets">
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Grafici interattivi con Chart.js o libreria Blazor nativa per trend, pie chart e KPI.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Filtri temporali (giorno, settimana, mese) e aggregazione automatica dei dati.</span></li>
+              <li class="modal-bullet"><svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="20 6 9 17 4 12"/></svg><span>Export report in PDF/Excel per condivisione con stakeholder.</span></li>
+            </ul>
+          </div>
+          <span class="roadmap-toggle-hint">
+            <span class="roadmap-toggle-label">Leggi tutto</span>
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="2"><polyline points="6 9 12 15 18 9"/></svg>
+          </span>
+        </div>
+        <div class="timeline-tags">
+          <span class="tag-pill">Blazor / JS</span>
+          <span class="tag-pill">Chart.js</span>
+          <span class="tag-pill">Data Visualization</span>
+          <span class="tag-pill">REST API</span>
+        </div>
+      </article>
+    </div>
+
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container footer-content">
+      <p>© 2026 Marco Cristofari — Tutti i diritti riservati. Roma, Italia.</p>
+      <div class="footer-links">
+        <a href="index.html" class="footer-link">Home</a>
+        <a href="contatti.html" class="footer-link">Contatti</a>
+        <a href="https://www.linkedin.com/in/marco-cristofari-15001b422/" target="_blank" rel="noopener noreferrer" class="footer-link">LinkedIn</a>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    document.getElementById('themeToggle').addEventListener('click', function () {
+      const html = document.documentElement;
+      const isDark = html.getAttribute('data-theme') === 'dark';
+      if (isDark) {
+        html.setAttribute('data-theme', 'light');
+        localStorage.setItem('tema', 'light');
+      } else {
+        html.setAttribute('data-theme', 'dark');
+        localStorage.setItem('tema', 'dark');
+      }
+    });
+
+    // --- FILTRI & RICERCA DINAMICA PROGETTI ---
+    const filterPills = document.querySelectorAll('.filter-pill');
+    const searchInput = document.getElementById('projectSearchInput');
+    const projectCards = document.querySelectorAll('.project-item');
+    const activeCountEl = document.getElementById('projectActiveCount');
+    const noResultsEl = document.getElementById('projectNoResults');
+    let categoriaAttiva = 'all';
+
+    function applicaFiltri() {
+      const query = (searchInput.value || '').trim().toLowerCase();
+      let visibili = 0;
+
+      projectCards.forEach(card => {
+        const cat = card.getAttribute('data-category') || '';
+        const tags = card.getAttribute('data-tags') || '';
+        const title = card.getAttribute('data-title') || '';
+        const text = (card.textContent || '').toLowerCase();
+
+        const matchCategoria = categoriaAttiva === 'all' || cat.includes(categoriaAttiva);
+        const matchRicerca = !query || tags.includes(query) || title.toLowerCase().includes(query) || text.includes(query);
+
+        if (matchCategoria && matchRicerca) {
+          card.classList.remove('is-filtered-out');
+          visibili++;
+        } else {
+          card.classList.add('is-filtered-out');
+        }
+      });
+
+      if (activeCountEl) {
+        activeCountEl.textContent = `${visibili} ${visibili === 1 ? 'progetto visualizzato' : 'progetti visualizzati'}`;
+      }
+
+      if (noResultsEl) {
+        noResultsEl.style.display = visibili === 0 ? 'flex' : 'none';
+      }
+    }
+
+    filterPills.forEach(pill => {
+      pill.addEventListener('click', function () {
+        filterPills.forEach(p => p.classList.remove('is-active'));
+        pill.classList.add('is-active');
+        categoriaAttiva = pill.getAttribute('data-filter');
+        applicaFiltri();
+      });
+    });
+
+    if (searchInput) {
+      searchInput.addEventListener('input', applicaFiltri);
+    }
+
+    // --- CARD PROGETTI ROADMAP: ESPANSIONE IN LINEA ---
+    document.querySelectorAll('.roadmap-card').forEach(function (card) {
+      const label = card.querySelector('.roadmap-toggle-label');
+
+      function alternaEspansione(e) {
+        // Se il click proviene da un pulsante di codice o link interno, non alternare la card
+        if (e && e.target && e.target.closest('.project-code-toggle, .project-code-drawer, a, button')) {
+          return;
+        }
+        const espansa = card.classList.toggle('is-expanded');
+        card.setAttribute('aria-expanded', espansa ? 'true' : 'false');
+        if (label) label.textContent = espansa ? 'Mostra meno' : 'Leggi tutto';
+      }
+
+      card.addEventListener('click', alternaEspansione);
+      card.addEventListener('keydown', function (e) {
+        if ((e.key === 'Enter' || e.key === ' ') && !e.target.closest('.project-code-toggle, .btn-copy-code, a')) {
+          e.preventDefault();
+          alternaEspansione(e);
+        }
+      });
+    });
+
+    // --- VISUALIZZATORE ARCHITETTURA CODICE & COPIA ---
+    document.querySelectorAll('.project-code-toggle').forEach(btn => {
+      btn.addEventListener('click', function (e) {
+        e.stopPropagation();
+        const targetId = btn.getAttribute('data-target');
+        const drawer = document.getElementById(targetId);
+        if (!drawer) return;
+
+        const isOpen = drawer.classList.toggle('is-open');
+        const span = btn.querySelector('span');
+        if (span) {
+          span.textContent = isOpen ? '{ } Nascondi Architettura Codice' : '{ } Mostra Architettura Codice';
+        }
+      });
+    });
+
+    document.querySelectorAll('.btn-copy-code').forEach(btn => {
+      btn.addEventListener('click', async function (e) {
+        e.stopPropagation();
+        const targetId = btn.getAttribute('data-copy-target');
+        const el = document.getElementById(targetId);
+        if (!el) return;
+
+        const codeText = el.textContent || '';
+        try {
+          if (navigator.clipboard && window.isSecureContext) {
+            await navigator.clipboard.writeText(codeText);
+          } else {
+            const ta = document.createElement('textarea');
+            ta.value = codeText;
+            ta.style.position = 'fixed';
+            ta.style.opacity = '0';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            document.body.removeChild(ta);
+          }
+          const orig = btn.textContent;
+          btn.textContent = 'Copiato!';
+          setTimeout(() => { btn.textContent = orig; }, 2000);
+        } catch (err) {
+          console.error('Errore copia snippet:', err);
+        }
+      });
+    });
+
+    applicaFiltri();
+  </script>
+</body>
+</html>
